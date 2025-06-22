@@ -5,11 +5,11 @@ error_reporting(E_ALL);
 
 // Connexion à la base de données...
 
-// Connexion à la base de données
+
 $host = "localhost";
 $user = "root";
-$pass = "Doja1390"; // Mets ton mot de passe si besoin
-$dbname = "projet"; // Remplace par le nom de ta base
+$pass = "-----"; //  mot de passe ny lisany
+$dbname = "projet"; 
 
 $conn = new mysqli($host, $user, $pass, $dbname);
 
