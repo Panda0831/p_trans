@@ -1,12 +1,77 @@
 
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
+// Connexion à la base de données...
 
+// Connexion à la base de données
+$host = "localhost";
+$user = "root";
+$pass = "Doja1390"; // Mets ton mot de passe si besoin
+$dbname = "projet"; // Remplace par le nom de ta base
+
+$conn = new mysqli($host, $user, $pass, $dbname);
+
+// Vérifie la connexion
+if ($conn->connect_error) {
+    die("Connexion échouée: " . $conn->connect_error);
+}
+
+// Si le formulaire est soumis
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Récupérer les données
+    $nom = $_POST["nom"];
+    $prenom = $_POST["prenom"];
+    $email = $_POST["email"];
+    $nie = $_POST["nie"];
+    $password = $_POST["password"];
+    $confirm_password = $_POST["confirm_password"];
+    $filiere = $_POST["filiere"];
+    $niveau = $_POST["niveau"];
+    $classe = $_POST["classe"];
+    $club_id = $_POST["club_id_club"];
+
+    // Vérifie que les mots de passe correspondent
+    if ($password !== $confirm_password) {
+        echo "Les mots de passe ne correspondent pas.";
+        exit;
+    }
+
+    // Génère un id aléatoire simple (à améliorer si besoin)
+    $id_etudiant = uniqid("ETU");
+
+    // Requête SQL
+    $sql = "INSERT INTO ETUDIANT (
+                id_etudiant, nom_etudiant, prenom_etudiant, email_etudiant, nie_etudiant,
+                filiere_etudiant, niveau_etudiant, classe_etudiant, club_id_club
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssssssssi", 
+        $id_etudiant, $nom, $prenom, $email, $nie,
+        $filiere, $niveau, $classe, $club_id
+    );
+
+    if ($stmt->execute()) {
+      // Rediriger vers liste.php après inscription
+      header("Location: liste.php");
+      exit;
+  } else {
+      echo "Erreur : " . $stmt->error;
+  }
+  
+
+    $stmt->close();
+}
+
+$conn->close();
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inscription</title>
   <style>
     body {
@@ -23,40 +88,45 @@
       min-height: 100vh;
       text-align: center;
     }
+
     .container {
       background: rgba(255, 255, 255, 0.08);
       padding: 40px 50px;
       border-radius: 20px;
       box-shadow: 0 12px 30px rgba(167, 69, 194, 0.5);
       backdrop-filter: blur(15px);
-      width: 1000vh;
-      max-width: 100vh;
+      width: 90vw;
+      max-width: 600px;
       box-sizing: border-box;
     }
+
     .container h1 {
       font-size: 2rem;
       color: #a3baff;
       margin-bottom: 5px;
-      text-align: center;
     }
+
     .container h2 {
       font-size: 1rem;
       color: #d0d6f6;
       margin-bottom: 30px;
-      text-align: center;
       font-weight: normal;
     }
+
     .form-group {
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       text-align: left;
     }
+
     .form-group label {
       display: block;
       margin-bottom: 8px;
       color: #d58eff;
       font-weight: 600;
     }
-    .form-group input {
+
+    .form-group input,
+    .form-group select {
       width: 100%;
       padding: 10px 15px;
       border: none;
@@ -66,10 +136,12 @@
       font-size: 0.95rem;
       box-sizing: border-box;
     }
+
     .form-group input:focus {
       outline: 2px solid #8a2be2;
       background-color: #fff;
     }
+
     .submit-btn {
       width: 100%;
       padding: 14px;
@@ -80,11 +152,12 @@
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.3s ease;
     }
+
     .submit-btn:hover {
       background: linear-gradient(135deg, #8a2be2, violet);
     }
+
     hr {
       border: 0;
       height: 1px;
@@ -96,26 +169,30 @@
       top: 15px;
       left: 0;
     }
-    h7 {
+
+    h6{
       position: absolute;
-      top: 10px;
+      top: -4vh;
       left: 50px;
       font-size: 1.2rem;
-      margin-bottom: 10px;
       color: rgb(131, 149, 187);
     }
   </style>
 </head>
 <body>
   <hr>
-  <h7>ESMIA UNIVERSITY</h7>
+  <h6>ESMIA UNIVERSITY</h6>
   <div class="container">
     <h1>Formulaire</h1>
     <h2>Inscription</h2>
-    <form method="post" action="inscrition.php">
+    <form method="post" action="inscription.php">
       <div class="form-group">
-        <label for="nom">Nom et Prénoms :</label>
+        <label for="nom">Nom :</label>
         <input type="text" id="nom" name="nom" required>
+      </div>
+      <div class="form-group">
+        <label for="prenom">Prénom :</label>
+        <input type="text" id="prenom" name="prenom" required>
       </div>
       <div class="form-group">
         <label for="email">Email :</label>
@@ -130,8 +207,8 @@
         <input type="password" id="password" name="password" required>
       </div>
       <div class="form-group">
-        <label for="confirm-password">Confirmer le mot de passe :</label>
-        <input type="password" id="confirm-password" name="confirm-password" required>
+        <label for="confirm_password">Confirmer le mot de passe :</label>
+        <input type="password" id="confirm-password" name="confirm_password" required>
       </div>
       <div class="form-group">
         <label for="filiere">Filière :</label>
@@ -145,77 +222,9 @@
         <label for="classe">Classe :</label>
         <input type="text" id="classe" name="classe">
       </div>
+     
+    
       <button type="submit" class="submit-btn">S'inscrire</button>
-    </form>
-  </div>
-</body>
-</html>
-    <?php
-// Connexion à la base de données
-$servername = "localhost";
-$username = "root";
-$password = "Doja1390";
-$dbname = "p_trans"; 
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Vérification de la connexion
-if ($conn->connect_error) {
-    die("Connexion échouée : " . $conn->connect_error);
-}
-
-// Vérifier si le formulaire a été soumis
-if (isset($_POST['nom'], $_POST['email'], $_POST['nie'], $_POST['password'])) {
-    $nom = htmlspecialchars($_POST['nom']);
-    $email = htmlspecialchars($_POST['email']);
-    $nie = htmlspecialchars($_POST['nie']);
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // hash sécurisé
-    $filiere = htmlspecialchars($_POST['filiere'] ?? '');
-    $niveau = htmlspecialchars($_POST['niveau'] ?? '');
-    $classe = htmlspecialchars($_POST['classe'] ?? '');
-    // Vérifier si les champs sont vides
-    if (empty($nom) || empty($email) || empty($nie) || empty($_POST['password'])) {
-        echo "Tous les champs sont obligatoires.";
-        exit;
-    }
-
-    // Préparer et exécuter la requête
-    $stmt = $conn->prepare("INSERT INTO ETUDIANT (nom, email, nie, password) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $nom, $email, $nie, $password);
-    if ($_POST['password'] !== $_POST['confirm-password']) {
-        echo "Les mots de passe ne correspondent pas.";
-        exit;
-    }//completer les champs
-    if(empty($nom) || empty($email) || empty($nie) || empty($_POST['password'])) {
-        echo "Tous les champs sont obligatoires.";
-        exit;
-    }
-    //verie si le nie existe déjà
-    $stmtCheck = $conn->prepare("SELECT * FROM ETUDIANT WHERE nie = ?");
-    $stmtCheck->bind_param("s", $nie);
-    $stmtCheck->execute();
-    $result = $stmtCheck->get_result();
-    if ($result->num_rows > 0) {
-        echo "Le NIE existe déjà.";
-        exit;
-    }
-    $stmtCheck->close();
-
-
-    if ($stmt->execute()) {
-        echo "Inscription réussie.";
-        header("Location: login.php");
-    } else {
-        echo " Erreur : " . $stmt->error;
-    }
-
-    $stmt->close();
-}
-
-$conn->close();
-?>
-
-
     </form>
   </div>
 </body>
