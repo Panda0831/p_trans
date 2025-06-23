@@ -1,26 +1,20 @@
-
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// Connexion à la base de données...
-
 // Connexion à la base de données
 $host = "localhost";
 $user = "root";
-$pass = "Doja1390"; // Mets ton mot de passe si besoin
-$dbname = "projet"; // Remplace par le nom de ta base
+$pass = "Doja1390";
+$dbname = "projet";
 
 $conn = new mysqli($host, $user, $pass, $dbname);
 
-// Vérifie la connexion
 if ($conn->connect_error) {
     die("Connexion échouée: " . $conn->connect_error);
 }
 
-// Si le formulaire est soumis
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Récupérer les données
     $nom = $_POST["nom"];
     $prenom = $_POST["prenom"];
     $email = $_POST["email"];
@@ -30,43 +24,39 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $filiere = $_POST["filiere"];
     $niveau = $_POST["niveau"];
     $classe = $_POST["classe"];
-    $club_id = $_POST["club_id_club"];
 
-    // Vérifie que les mots de passe correspondent
     if ($password !== $confirm_password) {
         echo "Les mots de passe ne correspondent pas.";
         exit;
     }
 
-    // Génère un id aléatoire simple (à améliorer si besoin)
+    $password = password_hash($password, PASSWORD_DEFAULT);
     $id_etudiant = uniqid("ETU");
 
-    // Requête SQL
     $sql = "INSERT INTO ETUDIANT (
-                id_etudiant, nom_etudiant, prenom_etudiant, email_etudiant, nie_etudiant,
-                filiere_etudiant, niveau_etudiant, classe_etudiant, club_id_club
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        id_etudiant, nom_etudiant, prenom_etudiant, email_etudiant, nie_etudiant,
+        filiere_etudiant, niveau_etudiant, classe_etudiant, password
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssssi", 
+    $stmt->bind_param("sssssssss",
         $id_etudiant, $nom, $prenom, $email, $nie,
-        $filiere, $niveau, $classe, $club_id
+        $filiere, $niveau, $classe, $password
     );
 
     if ($stmt->execute()) {
-      // Rediriger vers liste.php après inscription
-      header("Location: liste.php");
-      exit;
-  } else {
-      echo "Erreur : " . $stmt->error;
-  }
-  
+        header("Location: liste.php");
+        exit;
+    } else {
+        echo "Erreur : " . $stmt->error;
+    }
 
     $stmt->close();
 }
 
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
