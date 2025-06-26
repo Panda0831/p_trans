@@ -143,39 +143,39 @@
       </div>
     </form>
   </div>
+<?php
+try {
+    // Connexion à la base de données
+    $base = new PDO('mysql:host=localhost;dbname=projet', 'root', '');
+    $base->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "<p style='color: red;'>Erreur de connexion à la base de données : " . $e->getMessage() . "</p>";
+    exit(); // Arrêter l'exécution si la connexion échoue
+}
 
-  <?php
-  try {
-      // Connexion à la base de données
-      $base = new PDO('mysql:host=localhost;dbname=projet', 'root', 'Doja1390');
-      $base->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST["nie"], $_POST["password"]) && !empty($_POST["nie"]) && !empty($_POST["password"])) {
+        $nie = htmlspecialchars($_POST["nie"]);
+        $password = $_POST["password"];
 
-      if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          if (!empty($_POST["nie"]) && !empty($_POST["password"])) {
-              $nie = htmlspecialchars($_POST["nie"]);
-              $password = $_POST["password"];
+        $query = $base->prepare("SELECT * FROM ETUDIANT WHERE nie_etudiant = ?");
+        $query->execute([$nie]);
+        $user = $query->fetch(PDO::FETCH_ASSOC);
 
-              $query = $base->prepare("SELECT * FROM ETUDIANT WHERE nie_etudiant = ?");
-              $query->execute([$nie]);
-              $user = $query->fetch(PDO::FETCH_ASSOC);
-
-              if ($user && password_verify($password, $user['password'])) {
-                  session_start();
-                  $_SESSION['id_etudiant'] = $user['id_etudiant'];
-                  $_SESSION['nom_etudiant'] = $user['nom_etudiant'];
-                  header("Location: acceuil.php");
-                  exit();
-              } else {
-                  echo "<p style='color: red;'>Identifiant ou mot de passe incorrect.</p>";
-              }
-          } else {
-              echo "<p style='color: red;'>Tous les champs sont obligatoires.</p>";
-          }
-      }
-  } catch (PDOException $e) {
-      echo "<p style='color: red;'>Erreur de connexion à la base de données : " . $e->getMessage() . "</p>";
-  }
-  ?>
+        if ($user && isset($user['password']) && password_verify($password, $user['password'])) {
+            session_start();
+            $_SESSION['id_etudiant'] = $user['id_etudiant'];
+            $_SESSION['nom_etudiant'] = $user['nom_etudiant'];
+            header("Location: acceuil.php");
+            exit();
+        } else {
+            echo "<p style='color: red;'>Identifiant ou mot de passe incorrect.</p>";
+        }
+    } else {
+        echo "<p style='color: red;'>Tous les champs sont obligatoires.</p>";
+    }
+}
+?>
 
 </body>
 </html>
