@@ -1,181 +1,274 @@
+<?php
+session_start();
+
+$error = '';
+
+try {
+    $base = new PDO('mysql:host=localhost;dbname=p_transversal', 'root', 'Doja1390');
+    $base->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if (!empty($_POST["nie"]) && !empty($_POST["password"])) {
+            $nie = htmlspecialchars(trim($_POST["nie"]));
+            $password = trim($_POST["password"]);
+
+            $query = $base->prepare("SELECT * FROM ETUDIANT WHERE nie_etudiant = ?");
+            $query->execute([$nie]);
+            $user = $query->fetch(PDO::FETCH_ASSOC);
+
+            if ($user && password_verify($password, $user['password'])) {
+                $_SESSION['id_etudiant'] = $user['id_etudiant'];
+                $_SESSION['nom_etudiant'] = $user['nom_etudiant'];
+                header("Location: profil.php");
+                exit();
+            } else {
+                $error = "❌ Identifiant ou mot de passe incorrect.";
+            }
+        } else {
+            $error = "⚠️ Veuillez remplir tous les champs.";
+        }
+    }
+} catch (PDOException $e) {
+    $error = "Erreur de connexion à la base de données : " . htmlspecialchars($e->getMessage());
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Connexion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
-      font-family: sans-serif;
-      background-image: url('89781.jpg');
-      background-size: cover;
-      background-position: center;
-      color: #fff;
+    :root {
+      --primary-color: #090057e0;
+      --secondary-color: #050b53;
+      --text-color: #333;
+      --light-bg: #f9f9f9;
+    }
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--light-bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo-image img {
+      height: 50px;
+      margin-right: 15px;
+    }
+    .logo-text {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+    .form-section {
+      flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      text-align: center;
-      position: relative;
+      padding: 40px 0;
     }
-
     .form-container {
-      background: rgba(255, 255, 255, 0.08);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(15px);
+      background: #fff;
+      padding: 40px 32px;
+      border-radius: 16px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+      max-width: 400px;
       width: 100%;
-      max-width: 450px;
-      box-sizing: border-box;
     }
-
-    .top-header {
-      position: absolute;
-      top: 15px;
-      left: 30px;
-      text-align: left;
-    }
-
-    .top-header h7 {
-      font-size: 1.2rem;
-      color: rgb(131, 149, 187);
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .top-header hr {
-      border: 0;
-      height: 1px;
-      background: linear-gradient(495deg, #5f1f7a, #d02dc5);
-      width: 150px;
-      margin: 0;
-      box-shadow: 0 0 10px rgba(30, 11, 11, 0.5);
-      position: relative;
-      bottom: -30px;
-    }
-
     h1 {
-      font-size: 2rem;
-      color: #a3baff;
-      margin-bottom: 10px;
+      color: var(--primary-color);
+      margin-bottom: 24px;
+      text-align: center;
     }
-
     .input-group {
-      margin-bottom: 25px;
+      margin-bottom: 22px;
       text-align: left;
     }
-
     .input-group label {
       display: block;
       margin-bottom: 8px;
-      color: #d58eff;
+      color: var(--primary-color);
       font-weight: 600;
     }
-
     .input-group input {
       width: 100%;
       padding: 10px 15px;
-      border: none;
+      border: 1px solid #ddd;
       border-radius: 8px;
       background-color: #f0f0f0;
       color: #000;
-      font-size: 0.95rem;
+      font-size: 1rem;
       box-sizing: border-box;
+      transition: border 0.2s;
     }
-
     .input-group input:focus {
-      outline: 2px solid #8a2be2;
+      outline: none;
+      border: 1.5px solid var(--primary-color);
       background-color: #fff;
     }
-
     .btn-group {
       display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      margin-top: 20px;
+      gap: 18px;
+      margin-top: 18px;
     }
-
-    .btn-group button {
+    .btn-group button,
+    .btn-group a {
       flex: 1;
       padding: 12px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg, violet, #8a2be2);
+      border-radius: 8px;
+      background: var(--primary-color);
       color: #fff;
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+      line-height: 1.3;
+      border: none;
+      transition: background 0.3s;
+      display: inline-block;
+    }
+    .btn-group button:hover,
+    .btn-group a:hover {
+      background: var(--secondary-color);
+    }
+    .error-message {
+      color: #c00;
+      margin-top: 10px;
+      text-align: center;
+    }footer {
+      background-color: var(--primary-color);
+      color: white;
+      font-size: large;
+      padding: 2cm 1rem;
+      margin-top: 50px;
+      width: 100vw;
+      max-width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      gap: 5cm;
+      align-items: flex-start;
+      flex-wrap: wrap;
     }
 
-    .btn-group button:hover {
-      background: linear-gradient(135deg, #8a2be2, violet);
+    footer ul {
+      flex: 1 1 220px;
+      min-width: 200px;
+      margin: 0 1rem;
+    }
+
+    footer li {
+      opacity: 0.9;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 900px) {
+      footer {
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: stretch;
+      padding: 2rem 0.5rem;
+      }
+      footer ul {
+      margin: 0.5rem 0;
+      }
     }
   </style>
 </head>
 <body>
-
-  <div class="top-header">
-    <hr>
-    <h7>ESMIA UNIVERSITY</h7>
-  </div>
-
-  <div class="form-container">
-    <form action="" method="post">
-      <h1>Connexion</h1>
-
-      <div class="input-group">
-        <label for="nie">Identifiant :</label>
-        <input type="text" id="nie" name="nie" placeholder="Entrez votre NIE" required>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <div class="logo-image"><img src="globe.png" alt="ESMIA University"></div>
+        <div class="logo-text">ESMIA UNIVERSITY</div>
       </div>
+      <nav>
+        <ul style="display: flex;">
+          <li style="margin-left: 30px;">
+            <a href="sosisy.php" style="text-decoration:none;color:var(--text-color);font-weight:500;">Accueil</a>
+          </li>
+          <li style="margin-left: 30px;">
+            <a href="sosisy.php#clubs" style="text-decoration:none;color:var(--text-color);font-weight:500;">Clubs</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-      <div class="input-group">
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
-      </div>
+  <section class="form-section">
+    <div class="form-container">
+      <form action="" method="post" novalidate>
+        <h1>Connexion</h1>
+        <div class="input-group">
+          <label for="nie">Identifiant :</label>
+          <input type="text" id="nie" name="nie" placeholder="Entrez votre NIE" required value="<?= isset($_POST['nie']) ? htmlspecialchars($_POST['nie']) : '' ?>">
+        </div>
+        <div class="input-group">
+          <label for="password">Mot de passe :</label>
+          <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
+        </div>
+        <div class="btn-group">
+          <a href="inscription.php">S'inscrire</a>
+          <button type="submit">Se connecter</button>
+        </div>
+        <?php if ($error): ?>
+          <div class="error-message"><?= $error ?></div>
+        <?php endif; ?>
+      </form>
+    </div>
+  </section>
 
-      <div class="btn-group">
-        <button type="button" onclick="window.location.href='inscription.php'">Sign In</button>
-        <button type="submit">Login</button>
-      </div>
-    </form>
-  </div>
-
-  <?php
-  try {
-      // Connexion à la base de données
-      $base = new PDO('mysql:host=localhost;dbname=projet', 'root', 'Doja1390');
-      $base->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-      if ($_SERVER["REQUEST_METHOD"] === "POST") {
-          if (!empty($_POST["nie"]) && !empty($_POST["password"])) {
-              $nie = htmlspecialchars($_POST["nie"]);
-              $password = $_POST["password"];
-
-              $query = $base->prepare("SELECT * FROM ETUDIANT WHERE nie_etudiant = ?");
-              $query->execute([$nie]);
-              $user = $query->fetch(PDO::FETCH_ASSOC);
-
-              if ($user && password_verify($password, $user['password'])) {
-                  session_start();
-                  $_SESSION['id_etudiant'] = $user['id_etudiant'];
-                  $_SESSION['nom_etudiant'] = $user['nom_etudiant'];
-                  header("Location: acceuil.php");
-                  exit();
-              } else {
-                  echo "<p style='color: red;'>Identifiant ou mot de passe incorrect.</p>";
-              }
-          } else {
-              echo "<p style='color: red;'>Tous les champs sont obligatoires.</p>";
-          }
-      }
-  } catch (PDOException $e) {
-      echo "<p style='color: red;'>Erreur de connexion à la base de données : " . $e->getMessage() . "</p>";
-  }
-  ?>
-
+  <footer>
+    <ul>
+      <p>Notre Equipe:</p>
+      <li>@ 2025 ESMIA University</li>
+      <li>Nexus Tech</li>
+      <li>GROUPE 3 L1sio1</li>
+    </ul>
+    <ul>
+      <p>Coordonnées:</p>
+      <li>facebook</li>
+      <li>Instagram</li>
+      <li>Git Hub</li>
+      <li>Esmia University</li>
+    </ul>
+    <ul>
+      <p>Les Responsables :</p>
+      <li>AVE President : Fanamby</li>
+      <li>Secretaire : Willia Tang</li>
+      <li>Trésorier : Ryan</li>
+      <li>Conseiller : Joyce</li>
+    </ul>
+  </footer>
 </body>
 </html>

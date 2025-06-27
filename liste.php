@@ -135,7 +135,7 @@
         <h2>Club de danse</h2>
         <img src="danse.jpeg" alt="Club de danse" class="club-img">
         <p>Exprimez-vous à travers la danse et rejoignez notre groupe de danse.</p>
-        <button onclick="alert('Inscription au Club de Danse réussie !')">S'inscrire</button>
+        <button onclick="window.location.href='danse.php'">S'inscrire</button>
     </div>
 </section>
 </body>
