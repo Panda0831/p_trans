@@ -212,6 +212,14 @@ try {
       footer ul {
       margin: 0.5rem 0;
       }
+      .logo-image img {
+        height: 24px !important;
+        width: auto !important;
+        margin-right: 10px;
+      }
+      #notif-bell {
+        display: none; /* Cacher l'icône de notification sur mobile */
+      }
     }
   </style>
 </head>
@@ -224,10 +232,11 @@ try {
       </div>
       <nav>
         <ul>
-          <li><a href="acceuil.php">Accueil</a></li>
+          <li><a href="accueil.php">Accueil</a></li>
           <li><a href="profil.php">Mon profil</a></li>
-          <li><a href="sosisy.php#clubs">Clubs</a></li>
+          <li><a href="#clubs">Clubs</a></li>
           <li><a href="logout.php">Déconnexion</a></li>
+          <!-- <li><img src="bell.webp" alt="" id="notif-bell"></li> -->
         </ul>
       </nav>
     </div>

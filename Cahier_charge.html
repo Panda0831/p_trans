@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cahier de charge</title>
+
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #423480;
+        }
+        h1, h2 {
+            color: #333;
+            text-decoration: underline;
+        }
+        section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: justify;
+        }
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        
+            
+        }
+        li {
+            margin-bottom: 10px;
+            list-style-type: none;
+        }
+        section.section1 {
+            
+            padding: 30px;
+            border-radius: 5px;
+            
+        }
+        h1{
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 20px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <section class="presentaion">
+        <h1>CAHIER DES CHARGES</h1>
+        
+        <p><strong>Version 1.0</strong></p>
+        <p><strong>Date de création :</strong> 10 juin 2025</p>
+        <p><strong>Auteur :</strong> <em style="color: #ff00aa;">Groupe Nexus SIO1</em></p>
+        <p><strong>Membres :</strong> Fanamby Manjaka , Joyce Richie , Avotra Ryan , Tang Willia , Andy</p>
+
+    </section>
+    <section class="section1">
+        <h1>Titre du projet</h1>
+        <p style="color: rgb(87, 3, 3);">Développement d’une plateforme numérique de gestion des inscriptions aux clubs universitaires.</p>
+    </section>
+
+    <section class="contexte">
+        <h1>CONTEXTE DU PROJET</h1>
+        <P>La gestion actuelle des inscriptions aux clubs universitaires est principalement manuelle ou décentralisée (formulaires papier, Google Forms, échanges WhatsApp), entraînant des problèmes de coordination, de suivi, de visibilité et de communication. Il devient essentiel de moderniser ce processus.</P>
+    </section>
+
+    <section class="objectif">
+        <h1>OBJECTIF PRINCIPAL</h1>
+        <p>Créer une plateforme web et/ou mobile centralisée, ergonomique et sécurisée permettant :</p>
+        <ul>
+            <li>L’inscription des étudiants aux clubs.</li>
+            <li>La gestion des clubs (création, mise à jour, suivi des membres).</li>
+            <li>Le suivi des activités et de la participation.</li>
+            <li>La diffusion d’informations et de notifications.</li>
+        </ul>
+    </section>
+
+    <section class="objectif_specifique">
+        <h1>OBJECTIF SPECIFIQUE</h1>
+        <ul>
+            <li>Faciliter l’accès à l’offre de clubs pour tous les étudiants.</li>
+            <li>Offrir un espace personnel avec historique d’activités.</li>
+            <li>Permettre aux clubs de suivre les présences et gérer les événements.</li>
+            <li>Centraliser les données pour l’administration et le BDE.</li>
+            <li>Garantir l’accessibilité numérique (étudiants internationaux ou en situation de handicap).</li>
+        </ul>
+    </section>
+
+    <section class="Fonctionnalite_attendu">
+        <h1>FONCTIONNALITES ATTENDUES</h1>
+
+        <h2>Pour les étudiants</h2>
+
+        <ul>
+            <li>Consultation des clubs avec  description de chaque club.</li>
+            <li>Inscription  à un ou plusieurs clubs.</li>
+            <li>Agenda personnel synchronisé.</li>
+            <li>Notifications (événements, rappels…).</li>
+            <li>Historique de participation.</li>
+        </ul>
+
+        <h2>Pour les responsables</h2>
+
+        <ul>
+            <li>Suivi des inscriptions et participations.</li>
+            <li>Planification d’activités(Création, Suppression ).</li>
+            <li>Envoie de messages aux élèves inscrits</li>
+            <li>Gestion des présences.</li>
+            
+        </ul>
+
+        <h2>Pour l'administration</h2>
+        <ul>
+            <li>Vue globale des clubs et de leur activité.</li>
+            <li>Statistiques d’engagement étudiant.</li>
+            <li>Tableaux de bord par semestre.</li>
+        </ul>
+    
+
+        <h2>Fonctionnalités techniques :</h2>
+        <ul>
+            <li>Respect RGPD.</li>
+            <li>Authentification via NIE universitaire.</li>
+            <li>Accessibilité (lecteur d’écran, design inclusif).</li>
+            <li>Multilingue (FR/EN a minima).</li>
+        </ul>
+
+    </section>
+
+    <section class="senarios">
+        <h1>EXEMPLE DE SENARIO D' UTILISATION</h1>
+        <h2>Sénario 1 : Inscription d’un étudiant à un club</h2>
+        <p><strong>Acteur :</strong>  Étudiant</p>
+        <p><strong>Objectif :</strong> S'inscrire au club "Robotique" </p>
+        <p><strong>Etapes :</strong> </p>
+
+        <ul style="list-style-type: decimal;">
+            <li>L'Etudiant va sur la page d' accueil </li>
+            <li>Il consulte la liste des clubs</li>
+            <li>Il clique sur "Robotique", lit la description et les horaires.</li>
+            <li>Il clique sur "S'inscrire" et reçoit un message de  confirmation .</li>
+        </ul>
+
+        <h2>Scénario 2 : Création d’un événement par un responsable</h2>
+        <p><strong>Acteur :</strong>  Responsable d' un club</p>
+        <p><strong>Objectif :</strong> Planification d' un évènement ou activité</p>
+        <p><strong>Etapes :</strong> </p>
+
+        <ul style="list-style-type: decimal;">
+            <li>Elle se connecte à son espace "Responsable"</li>
+            <li>Elle clique sur "Créer un événement", date, lieu et description.</li>
+            <li>Elle ajoute un rappel automatique (48h avant).</li>
+            <li>Elle envoie une notification aux membres du club.</li>
+        </ul>
+
+        <h2>Scénario 3 :  Génération de statistiques par l’administration</h2>
+        <p><strong>Acteur :</strong>  Bureau de la vie étudiante </p>
+        <p><strong>Objectif :</strong> Analyseur l’engagement des étudiants.</p>
+        <p><strong>Etapes :</strong> </p>
+
+        <ul style="list-style-type: decimal;">
+            <li>Il accède au tableau de bord admin.</li>
+            <li>Il sélectionne "Statistiques par semestre".</li>
+            <li>l exporte un PDF de  la participation d' un Club </li>
+        
+        </ul>
+    </section>
+    <section class="public">
+        <h1>PUBLIC CIBLE</h1>
+        <ul>
+            <li>Étudiants (inscrits et non inscrits à un club)</li>
+            <li>Responsables de clubs (BDE)</li>
+            <li>Services administratifs (vie associative, DSI, administration)</li>
+        </ul>
+    </section>
+
+    <section class="contraintes">
+        <h1>CONTRAINTES</h1>
+        <UL>
+            <LI>Simplicité d’usage pour tous les niveaux techniques.</LI>
+            <LI>Disponibilité sur mobile (responsive design ou application).</LI>
+            <LI>Respect de la politique de sécurité de l’université (SSO, hébergement local ).</LI>
+        </UL>
+    </section>
+
+    <section class="livrables">
+        <h1>LIVRABLES</h1>
+        <ul>
+            <li>Plateforme web et/ou mobile fonctionnelle.</li>
+            <li>Documentation utilisateur et technique.</li>
+            </li>Interface utilisateur pour chaque type d’utilisateur.</li>
+            <li>Formation pour les administrateurs et responsables de clubs.</li>
+        </ul>
+    
+    </section>
+
+    <section class="tech">
+        <h1>TECHNOLOGIES ENVISAGEES</h1>
+        <ul>
+            <li>Frontend : HTML && CSS</li>
+            <li>Backend : PHP</li>
+            <li>Base de données : MySQL</li>
+            <li>Hébergement : hébergement local</li>
+        </ul>
+    </section>
+
+    <section class="planning">
+        <h1>PLANNING PREVENTIONNEL</h1>
+        <ul>
+            <li>Phase de conception :  <em>12 heures</em></li>
+            <li>Phase de développement : <em>72 heures</em></li>
+            <li>Phase de tests et corrections : <em>12 heures</em></li>
+            <li>Lancement de la plateforme : <em>fin juillet 2025</em></li>
+    </section>
+</body>
+</html>

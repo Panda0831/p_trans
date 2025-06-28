@@ -7,14 +7,15 @@ $user = "root";
 $pass = "Doja1390";
 $dbname = "p_transversal";
 
-$conn = new mysqli($host, $user, $pass, $dbname);
-if ($conn->connect_error) {
-    die("Connexion échouée: " . $conn->connect_error);
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connexion échouée: " . $e->getMessage());
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    // Récupération et nettoyage des données
     $nom = trim($_POST["nom"] ?? '');
     $prenom = trim($_POST["prenom"] ?? '');
     $email = trim($_POST["email"] ?? '');
@@ -25,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $niveau = trim($_POST["niveau"] ?? '');
     $classe = trim($_POST["classe"] ?? '');
 
-    // Validation
     if ($nom === '' || $prenom === '' || $email === '' || $nie === '' || $password === '' || $confirm_password === '') {
         echo "<div style='color:red;text-align:center;'>Veuillez remplir tous les champs obligatoires.</div>";
         exit;
@@ -41,19 +41,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    // Unicité NIE
+    $checkNIE = $conn->prepare("SELECT COUNT(*) FROM ETUDIANT WHERE nie_etudiant = ?");
+    $checkNIE->execute([$nie]);
+    if ($checkNIE->fetchColumn() > 0) {
+        echo "<div style='color:red;text-align:center;'>Ce NIE est déjà utilisé.</div>";
+        exit;
+    }
 
-    // 🔁 Générer le prochain ID ETUDIANT auto : ETU001, ETU002, etc.
+    // Unicité Email
+    $checkEmail = $conn->prepare("SELECT COUNT(*) FROM ETUDIANT WHERE email_etudiant = ?");
+    $checkEmail->execute([$email]);
+    if ($checkEmail->fetchColumn() > 0) {
+        echo "<div style='color:red;text-align:center;'>Cet email est déjà utilisé.</div>";
+        exit;
+    }
+
+    // Générer ID étudiant
     $query = "SELECT id_etudiant FROM ETUDIANT ORDER BY id_etudiant DESC LIMIT 1";
     $result = $conn->query($query);
-    if ($result && $row = $result->fetch_assoc()) {
-        $lastId = $row['id_etudiant']; // ex: ETU005
-        $num = (int)substr($lastId, 3); // extrait "005" => 5
-        $num++; // incrémente => 6
-        $id_etudiant = "ETU" . str_pad($num, 3, "0", STR_PAD_LEFT); // ETU006
+    if ($result && $row = $result->fetch(PDO::FETCH_ASSOC)) {
+        $lastId = $row['id_etudiant'];
+        $num = (int)substr($lastId, 3);
+        $num++;
+        $id_etudiant = "ETU" . str_pad($num, 3, "0", STR_PAD_LEFT);
     } else {
-        $id_etudiant = "ETU001"; // si table vide
+        $id_etudiant = "ETU001";
     }
+
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
     // Insertion
     $sql = "INSERT INTO ETUDIANT (
@@ -62,27 +78,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    if (!$stmt) {
-        die("Erreur de préparation : " . $conn->error);
-    }
-
-    $stmt->bind_param("sssssssss",
+    if ($stmt->execute([
         $id_etudiant, $nom, $prenom, $email, $nie,
         $filiere, $niveau, $classe, $passwordHash
-    );
-
-    if ($stmt->execute()) {
+    ])) {
         header("Location: liste.php");
         exit;
     } else {
-        echo "<div style='color:red;text-align:center;'>Erreur lors de l'inscription : " . htmlspecialchars($stmt->error) . "</div>";
+        echo "<div style='color:red;text-align:center;'>Erreur lors de l'inscription : " . htmlspecialchars($stmt->errorInfo()[2]) . "</div>";
     }
-
-    $stmt->close();
 }
-
-$conn->close();
 ?>
+
 
 
 
