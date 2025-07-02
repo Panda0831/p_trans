@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
     $id_club_danse = 2;
 
     try {
-        $pdo = new PDO('mysql:host=localhost;dbname=p_transversal;charset=utf8mb4', 'root', 'Doja1390', [
+        $pdo = new PDO('mysql:host=localhost;dbname=p_transversal;charset=utf8mb4', 'root', '', [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         ]);
 
@@ -342,7 +342,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
     </ul>
     <ul style="list-style: none; text-decoration: none;">
         <p>Coordonnées:</p><br>
-        <li style="color: inherit; text-decoration: none;"> facebook</li>
+        <li style="color: inherit; text-decoration: none;">Facebook</li>
         <li style="color: inherit; text-decoration: none;">Instagram</li>
         <li style="color: inherit; text-decoration: none;">Git Hub</li>
         <li style="color: inherit; text-decoration: none;">Esmia University</li>

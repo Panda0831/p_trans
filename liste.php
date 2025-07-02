@@ -111,7 +111,7 @@
         <h2>Club de basket</h2>
         <img src="basket.jpeg" alt="Club de basket" class="club-img">
         <p>Rejoignez-nous pour apprendre et s'ammuser a mettre des paiers</p>
-        <button onclick="alert('Inscription au Club de Basket réussie !')">S'inscrire</button>
+        <button onclick="window.location.href='basket_page.php'">S'inscrire</button>
     </div>
     <div id="club2">
         <h2>Club de musique</h2>

@@ -10,7 +10,7 @@ if (!isset($_SESSION['id_etudiant'])) {
 
 // Connexion à la base
 try {
-    $pdo = new PDO('mysql:host=localhost;dbname=p_transversal', 'root', 'Doja1390');
+    $pdo = new PDO('mysql:host=localhost;dbname=p_transversal', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Récupérer les infos de l'étudiant

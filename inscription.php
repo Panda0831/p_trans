@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 
 $host = "localhost";
 $user = "root";
-$pass = "Doja1390";
+$pass = "";
 $dbname = "p_transversal";
 
 $conn = new mysqli($host, $user, $pass, $dbname);

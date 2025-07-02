@@ -328,8 +328,8 @@
   </header>
   
   <section class="hero">
-    <h1>Bienvenue dans le club de basket</h1><br>
-    <p>Ici vous pouvez decouvrir plein de choses sur le basket, sur vos amis ou bien meme sur vous <br> Développer de nouvelles compétences, te faire des amis, ou simplement t’épanouir dans un domaine qui te passionne ?
+    <h1>Rejoignez nos clubs universitaires</h1><br>
+    <p>Tu veux vivre pleinement ton parcours universitaire ? <br> Développer de nouvelles compétences, te faire des amis, ou simplement t’épanouir dans un domaine qui te passionne ?
 
         Nos clubs sont faits pour toi !
         

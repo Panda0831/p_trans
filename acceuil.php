@@ -176,14 +176,14 @@
     <div class="header-container" role="banner">
       <div class="logo">
         <div class="logo-image"><img src="globe.png" alt="ESMIA University logo" /></div>
-        <div class="logo-text">ESMIA UNIVERSITY</div>
+        <div class="logo-text"><a href="acceuil.php">ESMIA UNIVERSITY</a></div>
       </div>
       <nav role="navigation" aria-label="Menu principal">
         <ul>
           <li><a href="acceuil.php">Accueil</a></li>
           <li><a href="sosisy.php#clubs">Nos clubs</a></li>
           <li><a href="#">Événements</a></li>
-          <li><a href="#">Profil</a></li>
+          <li><a href="profil.php">Profil</a></li>
           <li><a href="login.php" class="boutton">Se connecter</a></li>
         </ul>
       </nav>
