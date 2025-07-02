@@ -49,78 +49,122 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Club de Danse - ESMIA</title>
-    <link rel="stylesheet" href="back.css">
-    <link rel="stylesheet" href="./fontawesome/css/all.css">
     <style>
-        footer {
-            background-color: blue;
-            color: #222;
-            font-size: large;
-            padding: 2cm;
-            justify-content: center;
-            gap: 5cm;
-            align-items: center;
-            margin-top: 50px;
-            display: flex;
-        }
-        footer li { 
-            opacity: 0.9;
-            font-size: 0.9rem;
-        }
-        * {
-            font-family: 'Segoe UI', 'Trebuchet MS', Arial, sans-serif;
-            color: #222;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --main-bg: #181c2f;
+            --accent: #6c63ff;
+            --accent-light: #a7a3ff;
+            --white: #fff;
+            --gray: #e5e7ef;
+            --text: #232946;
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
         }
         body {
-            background: linear-gradient(120deg,rgb(102, 115, 163) 0%,rgb(240, 237, 237) 100%);
+            background: linear-gradient(120deg, var(--main-bg) 60%, var(--accent-light) 100%);
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            color: var(--white);
+            margin: 0;
             min-height: 100vh;
         }
-        section {
-            width: 90vw;
-            margin: 3vw auto;
-            background: rgba(168, 155, 155, 0);
-            border-radius: 1vw;
-            box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.10);
-            padding: 3vw 4vw 4vw 4vw;
+        header {
+            background: rgba(24,28,47,0.95);
+            box-shadow: var(--shadow);
+            padding: 0.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .d1 {
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
-            gap: 1vw;
-            margin-bottom: 1vw;
+            justify-content: space-between;
+            padding: 0 2rem;
         }
-        .d1 i {
-            font-size: 2vw;
-            color: #3a5fcf;
-            filter: none;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
-        .d1 h1 {
-            font-size: 1.7vw;
-            letter-spacing: 0.1vw;
+        .logo-image img {
+            height: 48px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #0002;
+            background: var(--white);
+            padding: 4px;
+        }
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-shadow: 0 2px 8px #0002;
+        }
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+        nav ul li a.btn {
+            background: var(--accent);
+            color: var(--white);
             font-weight: bold;
-            color:rgb(179, 185, 203);
-            text-shadow: none;
+            box-shadow: 0 2px 8px #6c63ff44;
         }
-        hr {
-            border: none;
-            border-top: 2px solid #bfc6e6;
-            width: 60%;
-            border-radius: 1vw;
+        nav ul li a:hover, nav ul li a.btn:hover {
+            background: var(--accent-light);
+            color: var(--main-bg);
+        }
+        .hero {
+            background: linear-gradient(100deg, var(--accent) 60%, var(--main-bg) 100%);
+            padding: 3rem 2rem 2rem 2rem;
+            text-align: center;
+            border-radius: 0 0 2rem 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--white);
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px #0003;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 1rem auto;
+            line-height: 1.7;
         }
         .main-content {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255,255,255,0.07);
+            border-radius: 1.5rem;
+            box-shadow: var(--shadow);
             display: flex;
             flex-wrap: wrap;
-            gap: 2vw;
+            gap: 2rem;
             justify-content: space-between;
         }
         .left {
@@ -132,24 +176,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
             padding: 2vw;
         }
         .left h2 {
-            font-size: 2.2vw;
-            color: #3a5fcf;
+            font-size: 2rem;
+            color: var(--accent);
             margin-bottom: 1vw;
             font-family: 'Caveat', cursive, Arial, sans-serif;
         }
         .left p {
-            font-size: 1.2vw;
+            font-size: 1.1rem;
             margin-bottom: 1vw;
-            color: floralwhite;
+            color: var(--white);
             line-height: 1.5;
         }
         .styled-label {
-            font-size: 1vw;
+            font-size: 1rem;
             margin-bottom: 0.5vw;
-            color: #3a5fcf;
+            color: var(--accent);
         }
         .styled-input {
-            font-size: 1vw;
+            font-size: 1rem;
             padding: 0.5vw 1vw;
             border-radius: 1vw;
             border: 1px solid #bfc6e6;
@@ -158,11 +202,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
             color: #222;
         }
         .left button {
-            width: 12vw;
-            height: 2.8vw;
-            font-size: 1.1vw;
+            width: 180px;
+            height: 40px;
+            font-size: 1.1rem;
             border-radius: 1vw;
-            background: linear-gradient(90deg, #bfc6e6 0%,rgb(43, 62, 117) 100%);
+            background: linear-gradient(90deg, #bfc6e6 0%, var(--accent) 100%);
             border: none;
             color: #fff;
             font-weight: bold;
@@ -171,8 +215,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
             transition: background 0.2s, color 0.2s, transform 0.2s;
         }
         .left button:hover {
-            background: #3a5fcf;
-            color: #fff;
+            background: var(--accent-light);
+            color: var(--main-bg);
             transform: scale(1.03);
         }
         .right {
@@ -183,9 +227,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
             align-items: flex-end;
         }
         .dance-card {
-            background: rgba(186, 200, 240, 0.18);
+            background: var(--white);
+            color: var(--text);
             border-radius: 1vw;
-            box-shadow: 0 2px 8px 0 rgba(58,95,207,0.08);
+            box-shadow: var(--shadow);
             padding: 1vw;
             width: 15vw;
             min-width: 180px;
@@ -198,8 +243,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
             position: absolute;
             top: 1vw;
             left: 1vw;
-            background:rgb(30, 43, 95);
-            color:rgb(247, 247, 247);
+            background: var(--accent);
+            color: var(--white);
             font-size: 1vw;
             font-weight: bold;
             padding: 0.3vw 0.8vw;
@@ -212,103 +257,116 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
             object-fit: cover;
             border-radius: 0.7vw;
             margin-top: 2vw;
-            box-shadow: 0 1px 6pxrgba(55, 65, 110, 0.53);
-        }
-        @media (max-width: 900px) {
-            .main-content {
-                flex-direction: column;
-                align-items: center;
-            }
-            .left, .right {
-                width: 100%;
-                padding: 0;
-            }
-            .dance-card {
-                width: 80vw;  .logo-image img {
-      height: 50px;
-      margin-right: 15px;
-    }
-    
-    .logo-text {
-      font-weight: bold;
-      font-size: 1.5rem;
-      color: var(--primary-color);
-    }
-                min-width: unset;
-                margin-bottom: 2vw;
-            }
-            .left h2, .left p, .left button {
-                font-size: 4vw;
-            }
+            box-shadow: 0 1px 6px rgba(55, 65, 110, 0.13);
         }
         .error-message {
-            color: red;
+            color: #e74c3c;
             margin-top: 1rem;
             font-weight: bold;
             text-align: center;
         }
         footer {
-      background-color: var(--primary-color);
-      color: white;
-      font-size: large;
-      padding: 2cm 1rem;
-      margin-top: 50px;
-      width: 100vw;
-      max-width: 100%;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: center;
-      gap: 5cm;
-      align-items: flex-start;
-      flex-wrap: wrap;
-    }
-
-    footer ul {
-      flex: 1 1 220px;
-      min-width: 200px;
-      margin: 0 1rem;
-    }
-
-    footer li {
-      opacity: 0.9;
-      font-size: 0.9rem;
-    }
-
-    @media (max-width: 900px) {
-      footer {
-      flex-direction: column;
-      gap: 1.5rem;
-      align-items: stretch;
-      padding: 2rem 0.5rem;
-      }
-      footer ul {
-      margin: 0.5rem 0;
-      }
-    }
-      .logo-image img {
-      height: 50px;
-      margin-right: 15px;
-    }
-    
-    .logo-text {
-      font-weight: bold;
-      font-size: 1.5rem;
-      color: var(--primary-color);
-    }
+            background: var(--main-bg);
+            color: var(--gray);
+            padding: 2.5rem 2rem 2rem 2rem;
+            margin-top: 3rem;
+            border-radius: 2rem 2rem 0 0;
+            box-shadow: 0 -2px 16px #0002;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            min-width: 180px;
+        }
+        footer p {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        footer li, footer a {
+            color: var(--gray);
+            text-decoration: none;
+            margin-bottom: 0.3rem;
+            display: block;
+            opacity: 0.95;
+            transition: color 0.2s;
+        }
+        footer a:hover {
+            color: var(--accent-light);
+            text-decoration: underline;
+        }
+        @media (max-width: 900px) {
+            .header-container, .main-content {
+                padding: 0 1rem;
+            }
+            .dance-card {
+                min-width: 160px;
+                max-width: 160px;
+            }
+            .main-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+        @media (max-width: 700px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .main-content {
+                padding: 1rem 0.5rem;
+            }
+            .dance-card {
+                min-width: 90vw;
+                max-width: 90vw;
+            }
+            footer {
+                flex-direction: column;
+                gap: 1.5rem;
+                border-radius: 1.2rem 1.2rem 0 0;
+            }
+        }
     </style>
 </head>
-<body?>
-    <div class="d1">
-        <i class="fa fa-globe"></i>
-        <div class="logo-image"><img src="globe.png" alt="ESMIA University"></div>
-        <h1>ESMIA UNIVERSITY</h1>
-    </div>
-    <hr>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-image"><img src="./img/globe.webp" alt="ESMIA University"></div>
+                <div class="logo-text">ESMIA UNIVERSITY</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="profil.php">Profil</a></li>
+                    <li><a href="accueil.php">Accueil</a></li>
+                    <li><a href="accueil.php#clubs">Clubs</a></li>
+                    <li><a href="nous.html">Qui sommes nous?</a></li>
+                    <li><a href="evenement.php">Événements</a></li>
+                    <li><a href="apropos.html">À propos</a></li>
+                    <li><a href="login.php" class="btn">Connexion</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section class="hero">
+        <h1>Club de Danse</h1>
+        <p>
+            Rejoins le club de danse de l'ESMIA !<br>
+            Découvre et pratique différents styles lors d'ateliers et de spectacles.<br>
+            Inscris-toi et exprime ta passion sur scène !
+        </p>
+    </section>
     <section>
         <div class="main-content">
             <div class="left">
                 <h2>Envie de Danser ?</h2>
-                <p class="white-text">Inscrivez-vous ici</p>
+                <p>Inscrivez-vous ici</p>
                 <form method="post">
                     <label for="nie" class="styled-label">NIE</label>
                     <input type="text" id="nie" name="nie" class="styled-input" placeholder="Votre NIE" required>
@@ -327,34 +385,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
                     <p>Zumba</p>
                     <img src="zumba.png" alt="Zumba">
                 </div>
-                <div>
-                    <p style="color: #fff;">Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+                <div class="dance-card">
+                    <p>Classique</p>
+                    <img src="danse_classique.jpg" alt="Danse classique">
                 </div>
             </div>
         </div>
     </section>
-<footer>
-    <ul style="list-style: none;">
-        <p>Notre Equipe:</p><br>
-        <li>@ 2025 ESMIA University</li>
-        <li>Nexus Tech</li>
-        <li>GROUPE 3 L1sio1</li>
-    </ul>
-    <ul style="list-style: none; text-decoration: none;">
-        <p>Coordonnées:</p><br>
-        <li style="color: inherit; text-decoration: none;"> facebook</li>
-        <li style="color: inherit; text-decoration: none;">Instagram</li>
-        <li style="color: inherit; text-decoration: none;">Git Hub</li>
-        <li style="color: inherit; text-decoration: none;">Esmia University</li>
-    </ul>
-    <ul style="list-style: none;">
-        <p>Les Résponsables :</p><br>
-        <li>AVE President : Fanamby</li>
-        <li> Secretaire : Willia Tang</li>
-        <li>Trésorier : Ryan</li>
-        <li>Conseiller : Joyce</li>
-    </ul>
+    <footer>
+        <ul>
+            <p>Notre Équipe :</p>
+            <li>@ 2025 ESMIA University</li>
+            <li><a href="https://github.com/nexus-tech5">Nexus Tech</a></li>
+            <li>GROUPE 3 L1sio1</li>
+        </ul>
+        <ul>
+            <p>Coordonnées :</p>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">GitHub</a></li>
+            <li>Esmia University</li>
+        </ul>
+        <ul>
+            <p>Les Responsables :</p>
+            <li>Président : Fanamby</li>
+            <li>Secrétaire : Willia Tang</li>
+            <li>Trésorier : Ryan</li>
+            <li>Conseiller : Joyce</li>
+        </ul>
     </footer>
-
 </body>
 </html>

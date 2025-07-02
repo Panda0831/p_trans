@@ -1,5 +1,5 @@
+// profil.php
 <?php
-
 session_start();
 
 // Vérifie que l'utilisateur est connecté
@@ -41,94 +41,105 @@ try {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     :root {
-      --primary-color: #090057e0;
-      --secondary-color: #050b53;
-      --text-color: #333;
-      --light-bg: #f9f9f9;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      --main-bg: #181c2f;
+      --accent: #6c63ff;
+      --accent-light: #a7a3ff;
+      --white: #fff;
+      --gray: #e5e7ef;
+      --text: #232946;
+      --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
     }
     body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(120deg, #bfc6e6 0%, #242e59 100%);
-      color: var(--text-color);
+      background: linear-gradient(120deg, var(--main-bg) 60%, var(--accent-light) 100%);
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      color: var(--white);
+      margin: 0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
     }
     header {
-      background-color: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 15px 0;
+      background: rgba(24,28,47,0.95);
+      box-shadow: var(--shadow);
+      padding: 0.5rem 0;
       position: sticky;
       top: 0;
       z-index: 100;
-      width: 100%;
     }
     .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
     }
     .logo {
       display: flex;
       align-items: center;
+      gap: 1rem;
     }
     .logo-image img {
-      height: 50px;
-      margin-right: 15px;
+      height: 48px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #0002;
+      background: var(--white);
+      padding: 4px;
     }
     .logo-text {
-      font-weight: bold;
-      font-size: 1.5rem;
-      color: var(--primary-color);
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-shadow: 0 2px 8px #0002;
     }
     nav ul {
       display: flex;
+      gap: 2rem;
       list-style: none;
-    }
-    nav ul li {
-      margin-left: 30px;
+      margin: 0;
+      padding: 0;
     }
     nav ul li a {
+      color: var(--white);
       text-decoration: none;
-      color: var(--text-color);
       font-weight: 500;
-      transition: color 0.3s;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
     }
-    nav ul li a:hover {
-      color: var(--primary-color);
+    nav ul li a.btn {
+      background: var(--accent);
+      color: var(--white);
+      font-weight: bold;
+      box-shadow: 0 2px 8px #6c63ff44;
+    }
+    nav ul li a:hover, nav ul li a.btn:hover {
+      background: var(--accent-light);
+      color: var(--main-bg);
     }
     .main-content {
       flex: 1;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 0 0 0;
-      width: 100%;
+      padding: 3rem 1rem 2rem 1rem;
     }
     .profil {
-      background: #fff;
+      background: rgba(255,255,255,0.09);
       padding: 40px 32px;
       border-radius: 18px;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+      box-shadow: var(--shadow);
       max-width: 420px;
       width: 100%;
       margin: 40px auto 0 auto;
       text-align: left;
-      border: 2px solid var(--primary-color);
+      color: var(--text);
+      border: 2px solid var(--accent);
     }
     .profil h2 {
       margin-top: 0;
-      color: var(--primary-color);
+      color: var(--accent);
       font-size: 2rem;
       text-align: center;
       margin-bottom: 18px;
@@ -136,14 +147,15 @@ try {
     .profil p {
       margin: 12px 0;
       font-size: 1.05rem;
+      color: var(--white);
     }
     .profil strong {
-      color: var(--secondary-color);
+      color: var(--accent-light);
     }
     .clubs-list {
       margin-top: 10px;
       margin-bottom: 10px;
-      color: #444;
+      color: #fff;
       font-weight: bold;
     }
     .logout {
@@ -153,7 +165,7 @@ try {
     .logout a {
       text-decoration: none;
       color: #fff;
-      background: var(--primary-color);
+      background: var(--accent);
       padding: 12px 28px;
       border-radius: 8px;
       font-weight: bold;
@@ -163,7 +175,8 @@ try {
       display: inline-block;
     }
     .logout a:hover {
-      background: var(--secondary-color);
+      background: var(--accent-light);
+      color: var(--main-bg);
     }
     @media (max-width: 900px) {
       .header-container {
@@ -176,49 +189,56 @@ try {
       }
     }
     footer {
-      background-color: var(--primary-color);
-      color: white;
-      font-size: large;
-      padding: 2cm 1rem;
-      margin-top: 50px;
-      width: 100vw;
-      max-width: 100%;
-      box-sizing: border-box;
+      background: var(--main-bg);
+      color: var(--gray);
+      padding: 2.5rem 2rem 2rem 2rem;
+      margin-top: 3rem;
+      border-radius: 2rem 2rem 0 0;
+      box-shadow: 0 -2px 16px #0002;
       display: flex;
-      justify-content: center;
-      gap: 5cm;
-      align-items: flex-start;
       flex-wrap: wrap;
+      gap: 3rem;
+      justify-content: center;
+      font-size: 1rem;
     }
-
     footer ul {
-      flex: 1 1 220px;
-      min-width: 200px;
-      margin: 0 1rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      min-width: 180px;
     }
-
-    footer li {
-      opacity: 0.9;
-      font-size: 0.9rem;
+    footer p {
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
     }
-
-    @media (max-width: 900px) {
+    footer li, footer a {
+      color: var(--gray);
+      text-decoration: none;
+      margin-bottom: 0.3rem;
+      display: block;
+      opacity: 0.95;
+      transition: color 0.2s;
+    }
+    footer a:hover {
+      color: var(--accent-light);
+      text-decoration: underline;
+    }
+    @media (max-width: 700px) {
+      .header-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .main-content {
+        padding: 1rem 0.5rem;
+      }
+      .profil {
+        padding: 1rem 0.5rem;
+      }
       footer {
-      flex-direction: column;
-      gap: 1.5rem;
-      align-items: stretch;
-      padding: 2rem 0.5rem;
-      }
-      footer ul {
-      margin: 0.5rem 0;
-      }
-      .logo-image img {
-        height: 24px !important;
-        width: auto !important;
-        margin-right: 10px;
-      }
-      #notif-bell {
-        display: none; /* Cacher l'icône de notification sur mobile */
+        flex-direction: column;
+        gap: 1.5rem;
+        border-radius: 1.2rem 1.2rem 0 0;
       }
     }
   </style>
@@ -227,16 +247,20 @@ try {
   <header>
     <div class="header-container">
       <div class="logo">
-        <div class="logo-image"><img src="globe.png" alt="ESMIA University"></div>
+        <div class="logo-image"><img src="./img/globe.webp" alt="ESMIA University"></div>
         <div class="logo-text">ESMIA UNIVERSITY</div>
       </div>
       <nav>
         <ul>
+          <li><a href="profil.php">Profil</a></li>
           <li><a href="accueil.php">Accueil</a></li>
-          <li><a href="profil.php">Mon profil</a></li>
-          <li><a href="#clubs">Clubs</a></li>
-          <li><a href="logout.php">Déconnexion</a></li>
-          <!-- <li><img src="bell.webp" alt="" id="notif-bell"></li> -->
+          <li><a href="accueil.php#clubs">Clubs</a></li>
+          <li><a href="nous.html">Qui sommes nous?</a></li>
+          <li><a href="apropos.html">À propos</a></li>
+          <li><a href="deconnexion.php" class="btn">Déconnexion</a></li>
+          <li>
+            <img class="logo-image2" src="bell.webp" alt="" id="notif-bell" style="height:22px; width:22px; object-fit:contain; vertical-align:middle;">
+          </li>
         </ul>
       </nav>
     </div>
@@ -259,28 +283,26 @@ try {
     </div>
   </div>
   <footer>
-    <ul style="list-style: none;">
-        <p>Notre Equipe:</p><br>
-        <li>@ 2025 ESMIA University</li>
-        <li>Nexus Tech</li>
-        <li>GROUPE 3 L1sio1</li>
+    <ul>
+      <p>Notre Équipe :</p>
+      <li>@ 2025 ESMIA University</li>
+      <li><a href="https://github.com/nexus-tech5">Nexus Tech</a></li>
+      <li>GROUPE 3 L1sio1</li>
     </ul>
-    <ul style="list-style: none; text-decoration: none;">
-        <p>Coordonnées:</p><br>
-        <li style="color: inherit; text-decoration: none;"> facebook</li>
-        <li style="color: inherit; text-decoration: none;">Instagram</li>
-        <li style="color: inherit; text-decoration: none;">Git Hub</li>
-        <li style="color: inherit; text-decoration: none;">Esmia University</li>
+    <ul>
+      <p>Coordonnées :</p>
+      <li><a href="#">Facebook</a></li>
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">GitHub</a></li>
+      <li>Esmia University</li>
     </ul>
-    <ul style="list-style: none;">
-        <p>Les Résponsables :</p><br>
-        <li>AVE President : Fanamby</li>
-        <li> Secretaire : Willia Tang</li>
-        <li>Trésorier : Ryan</li>
-        <li>Conseiller : Joyce</li>
+    <ul>
+      <p>Les Responsables :</p>
+      <li>Président : Fanamby</li>
+      <li>Secrétaire : Willia Tang</li>
+      <li>Trésorier : Ryan</li>
+      <li>Conseiller : Joyce</li>
     </ul>
-    </footer>
-  
-  
+  </footer>
 </body>
 </html>

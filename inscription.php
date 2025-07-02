@@ -1,97 +1,3 @@
-<?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-$host = "localhost";
-$user = "root";
-$pass = "Doja1390";
-$dbname = "p_transversal";
-
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Connexion échouée: " . $e->getMessage());
-}
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-    $nom = trim($_POST["nom"] ?? '');
-    $prenom = trim($_POST["prenom"] ?? '');
-    $email = trim($_POST["email"] ?? '');
-    $nie = trim($_POST["nie"] ?? '');
-    $password = $_POST["password"] ?? '';
-    $confirm_password = $_POST["confirm_password"] ?? '';
-    $filiere = trim($_POST["filiere"] ?? '');
-    $niveau = trim($_POST["niveau"] ?? '');
-    $classe = trim($_POST["classe"] ?? '');
-
-    if ($nom === '' || $prenom === '' || $email === '' || $nie === '' || $password === '' || $confirm_password === '') {
-        echo "<div style='color:red;text-align:center;'>Veuillez remplir tous les champs obligatoires.</div>";
-        exit;
-    }
-
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "<div style='color:red;text-align:center;'>Adresse email invalide.</div>";
-        exit;
-    }
-
-    if ($password !== $confirm_password) {
-        echo "<div style='color:red;text-align:center;'>Les mots de passe ne correspondent pas.</div>";
-        exit;
-    }
-
-    // Unicité NIE
-    $checkNIE = $conn->prepare("SELECT COUNT(*) FROM ETUDIANT WHERE nie_etudiant = ?");
-    $checkNIE->execute([$nie]);
-    if ($checkNIE->fetchColumn() > 0) {
-        echo "<div style='color:red;text-align:center;'>Ce NIE est déjà utilisé.</div>";
-        exit;
-    }
-
-    // Unicité Email
-    $checkEmail = $conn->prepare("SELECT COUNT(*) FROM ETUDIANT WHERE email_etudiant = ?");
-    $checkEmail->execute([$email]);
-    if ($checkEmail->fetchColumn() > 0) {
-        echo "<div style='color:red;text-align:center;'>Cet email est déjà utilisé.</div>";
-        exit;
-    }
-
-    // Générer ID étudiant
-    $query = "SELECT id_etudiant FROM ETUDIANT ORDER BY id_etudiant DESC LIMIT 1";
-    $result = $conn->query($query);
-    if ($result && $row = $result->fetch(PDO::FETCH_ASSOC)) {
-        $lastId = $row['id_etudiant'];
-        $num = (int)substr($lastId, 3);
-        $num++;
-        $id_etudiant = "ETU" . str_pad($num, 3, "0", STR_PAD_LEFT);
-    } else {
-        $id_etudiant = "ETU001";
-    }
-
-    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-    // Insertion
-    $sql = "INSERT INTO ETUDIANT (
-        id_etudiant, nom_etudiant, prenom_etudiant, email_etudiant, nie_etudiant,
-        filiere_etudiant, niveau_etudiant, classe_etudiant, password
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    $stmt = $conn->prepare($sql);
-    if ($stmt->execute([
-        $id_etudiant, $nom, $prenom, $email, $nie,
-        $filiere, $niveau, $classe, $passwordHash
-    ])) {
-        header("Location: liste.php");
-        exit;
-    } else {
-        echo "<div style='color:red;text-align:center;'>Erreur lors de l'inscription : " . htmlspecialchars($stmt->errorInfo()[2]) . "</div>";
-    }
-}
-?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -101,68 +7,82 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     :root {
-      --primary-color: #090057e0;
-      --secondary-color: #050b53;
-      --text-color: #333;
-      --light-bg: #f9f9f9;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      --main-bg: #181c2f;
+      --accent: #6c63ff;
+      --accent-light: #a7a3ff;
+      --white: #fff;
+      --gray: #e5e7ef;
+      --text: #232946;
+      --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
     }
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: var(--light-bg);
-      color: rgb(51, 51, 51);
+      background: linear-gradient(120deg, var(--main-bg) 60%, var(--accent-light) 100%);
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      color: var(--white);
+      margin: 0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
     header {
-      background-color: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 15px 0;
+      background: rgba(24,28,47,0.95);
+      box-shadow: var(--shadow);
+      padding: 0.5rem 0;
       position: sticky;
       top: 0;
       z-index: 100;
     }
     .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
     }
     .logo {
       display: flex;
       align-items: center;
+      gap: 1rem;
     }
     .logo-image img {
-      height: 50px;
-      margin-right: 15px;
+      height: 48px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #0002;
+      background: var(--white);
+      padding: 4px;
     }
     .logo-text {
-      font-weight: bold;
-      font-size: 1.5rem;
-      color: var(--primary-color);
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-shadow: 0 2px 8px #0002;
     }
     nav ul {
       display: flex;
+      gap: 2rem;
       list-style: none;
-    }
-    nav ul li {
-      margin-left: 30px;
+      margin: 0;
+      padding: 0;
     }
     nav ul li a {
+      color: var(--white);
       text-decoration: none;
-      color: var(--text-color);
       font-weight: 500;
-      transition: color 0.3s;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
     }
-    nav ul li a:hover {
-      color: var(--primary-color);
+    nav ul li a.btn {
+      background: var(--accent);
+      color: var(--white);
+      font-weight: bold;
+      box-shadow: 0 2px 8px #6c63ff44;
+    }
+    nav ul li a:hover, nav ul li a.btn:hover {
+      background: var(--accent-light);
+      color: var(--main-bg);
     }
     .main-content {
       flex: 1;
@@ -173,23 +93,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       padding: 40px 0;
     }
     .container {
-      background: rgb(78, 72, 158);
+      background: rgba(255,255,255,0.09);
       padding: 40px 32px;
       border-radius: 16px;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+      box-shadow: var(--shadow);
       max-width: 500px;
       width: 100%;
       margin: 0 auto;
+      color: var(--text);
     }
     .container h1 {
       font-size: 2rem;
-      color: var(--primary-color);
+      color: var(--accent);
       margin-bottom: 5px;
       text-align: center;
     }
     .container h2 {
       font-size: 1rem;
-      color: var(--secondary-color);
+      color: var(--accent-light);
       margin-bottom: 30px;
       font-weight: normal;
       text-align: center;
@@ -201,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     .form-group label {
       display: block;
       margin-bottom: 8px;
-      color: var(--primary-color);
+      color: var(--accent);
       font-weight: 600;
     }
     .form-group input,
@@ -217,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     .form-group input:focus {
       outline: none;
-      border: 1.5px solid var(--primary-color);
+      border: 1.5px solid var(--accent);
       background-color: #fff;
     }
     .submit-btn {
@@ -225,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       padding: 14px;
       border: none;
       border-radius: 10px;
-      background: var(--primary-color);
+      background: var(--accent);
       color: #fff;
       font-size: 1rem;
       font-weight: bold;
@@ -233,7 +154,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       transition: background 0.3s;
     }
     .submit-btn:hover {
-      background: var(--secondary-color);
+      background: var(--accent-light);
+      color: var(--main-bg);
     }
     @media (max-width: 900px) {
       .header-container, footer {
@@ -249,35 +171,75 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       }
     }
     footer {
-  background-color: var(--primary-color);
-  color: white;
-  font-size: large;
-  padding: 2cm 0.5cm;
-  justify-content: center;
-  gap: 5cm;
-  align-items: center;
-  margin-top: 50px;
-  display: flex;
-}
-footer li {
-  opacity: 0.9;
-  font-size: 0.9rem;
-}
+      background: var(--main-bg);
+      color: var(--gray);
+      padding: 2.5rem 2rem 2rem 2rem;
+      margin-top: 3rem;
+      border-radius: 2rem 2rem 0 0;
+      box-shadow: 0 -2px 16px #0002;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    footer ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      min-width: 180px;
+    }
+    footer p {
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    footer li, footer a {
+      color: var(--gray);
+      text-decoration: none;
+      margin-bottom: 0.3rem;
+      display: block;
+      opacity: 0.95;
+      transition: color 0.2s;
+    }
+    footer a:hover {
+      color: var(--accent-light);
+      text-decoration: underline;
+    }
+    @media (max-width: 700px) {
+      .header-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .main-content {
+        padding: 1rem 0.5rem;
+      }
+      .container {
+        padding: 1rem 0.5rem;
+      }
+      footer {
+        flex-direction: column;
+        gap: 1.5rem;
+        border-radius: 1.2rem 1.2rem 0 0;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="header-container">
       <div class="logo">
-        <div class="logo-image"><img src="./img/globe.png" alt="ESMIA University"></div>
+        <div class="logo-image"><img src="./img/globe.webp" alt="ESMIA University"></div>
         <div class="logo-text">ESMIA UNIVERSITY</div>
       </div>
       <nav>
         <ul>
-          <li><a href="acceuil.php">Accueil</a></li>
-          <li><a href="sosisy.php#clubs">Nos clubs</a></li>
-          <li><a href="#">Événements</a></li>
-          <li><a href="#">Profil</a></li>
+          <li><a href="profil.php">Profil</a></li>
+          <li><a href="accueil.php">Accueil</a></li>
+          <li><a href="accueil.php#clubs">Clubs</a></li>
+          <li><a href="nous.html">Qui sommes nous?</a></li>
+          <li><a href="evenement.php">Événements</a></li>
+          <li><a href="apropos.html">À propos</a></li>
           <li><a href="login.php" class="btn">Connexion</a></li>
         </ul>
       </nav>
@@ -329,26 +291,26 @@ footer li {
     </div>
   </div>
   <footer>
-  <ul style="list-style: none;">
-      <p>Notre Equipe:</p><br>
+    <ul>
+      <p>Notre Équipe :</p>
       <li>@ 2025 ESMIA University</li>
-      <li>Nexus Tech</li>
+      <li><a href="https://github.com/nexus-tech5">Nexus Tech</a></li>
       <li>GROUPE 3 L1sio1</li>
-  </ul>
-  <ul style="list-style: none; text-decoration: none;">
-      <p>Coordonnées:</p><br>
-      <li style="color: inherit; text-decoration: none;"> facebook</li>
-      <li style="color: inherit; text-decoration: none;">Instagram</li>
-      <li style="color: inherit; text-decoration: none;">Git Hub</li>
-      <li style="color: inherit; text-decoration: none;">Esmia University</li>
-  </ul>
-  <ul style="list-style: none;">
-      <p>Les Résponsables :</p><br>
-      <li>AVE President : Fanamby</li>
-      <li> Secretaire : Willia Tang</li>
+    </ul>
+    <ul>
+      <p>Coordonnées :</p>
+      <li><a href="#">Facebook</a></li>
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">GitHub</a></li>
+      <li>Esmia University</li>
+    </ul>
+    <ul>
+      <p>Les Responsables :</p>
+      <li>Président : Fanamby</li>
+      <li>Secrétaire : Willia Tang</li>
       <li>Trésorier : Ryan</li>
       <li>Conseiller : Joyce</li>
-  </ul>
-</footer>
+    </ul>
+  </footer>
 </body>
 </html>

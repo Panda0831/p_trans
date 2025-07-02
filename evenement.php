@@ -97,6 +97,7 @@
       </div>
       <nav>
         <ul>
+        <li><a href="profil.php">profil</a></li>
           <li><a href="accueil.php">Accueil</a></li>
           <li><a href="#clubs">Clubs</a></li>
           <li><a href="nous.html">Qui sommes nous?</a></li>
