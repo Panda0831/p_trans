@@ -1,6 +1,7 @@
 <?php
 session_start();
-
+include_once 'auth.php'; // Inclut les fonctions d'authentification
+requireLogin(); // Vérifie que l'utilisateur est connecté, redirige vers la page de connexion
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
@@ -285,6 +286,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
     .open-button:hover {
       opacity: 1;
     }
+        .avatar {
+  width: 40px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid white;
+}
   </style>
 </head>
 
@@ -300,13 +309,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
 
   <nav>
     <ul>
-      <li><a href="profil.php">profil</a></li>
-
       <li><a href="accueil.php">Accueil</a></li>
       <li><a href="#clubs">Clubs</a></li>
       <li><a href="evenements.php">Événements</a></li>
       <li><a href="contact.php">Contact</a></li>
-      <li><a href="login.php">Connexion</a></li>
+      <li><a href="apropos.html">A propos</a></li>
+      <li>
+        <a href="profil.php">
+          <img src="<?= isset($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : 'user.png' ?>" class="avatar" alt="Profil">
+        </a>
+  
     </ul>
   </nav>
 

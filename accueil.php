@@ -1,4 +1,7 @@
-<?php // Nouveau style moderne pour la page d'accueil des clubs ?>
+<?php 
+session_start();
+include 'auth.php';
+  ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -292,6 +295,14 @@
         border-radius: 1.2rem 1.2rem 0 0;
       }
     }
+     .avatar {
+  width: 40px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid white;
+}
   </style>
 </head>
 <body>
@@ -303,13 +314,20 @@
       </div>
       <nav>
         <ul>
-          <li><a href="profil.php">Profil</a></li>
           <li><a href="accueil.php">Accueil</a></li>
           <li><a href="#clubs">Clubs</a></li>
           <li><a href="nous.html">Qui sommes nous?</a></li>
           <li><a href="evenement.php">Événements</a></li>
           <li><a href="apropos.html">À propos</a></li>
-          <li><a href="login.php" class="btn">Connexion</a></li>
+          <li>
+            <?php if (isLoggedIn()){ ?>
+              <a href="profil.php">
+                <img src="<?= isset($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : 'user.png' ?>" class="avatar" alt="Profil">
+              </a>
+              <?php } else { ?>
+              <a href="login.php">
+            <a href="login.php" class="btn">Connexion</a></li>
+            <?php } ?>
         </ul>
       </nav>
     </div>

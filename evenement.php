@@ -1,3 +1,11 @@
+<?php
+session_start();
+// Include authentication functions
+include_once 'auth.php';  
+// Check if the user is logged in
+requireLogin(); // Redirects to login page if user is not logged in
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -86,6 +94,14 @@
     opacity: 0.9;
     font-size: 0.9rem;
   }
+    .avatar {
+  width: 40px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid white;
+}
   </style>
 </head>
 <body>
@@ -97,12 +113,18 @@
       </div>
       <nav>
         <ul>
-        <li><a href="profil.php">profil</a></li>
           <li><a href="accueil.php">Accueil</a></li>
           <li><a href="#clubs">Clubs</a></li>
           <li><a href="nous.html">Qui sommes nous?</a></li>
           <li><a href="apropos.html">A propos</a></li>
-         <li> <a href="login.php" class="btn">Connexion</a></li>
+         <li><?php if (isLoggedIn()) { ?>
+              <a href="profil.php">
+                <img src="<?= isset($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : 'user.png' ?>" class="avatar" alt="Profil">
+              </a> <?php
+                  } else { ?>
+              <a href="login.php" class="btn">Connexion</a>
+          </li>
+        <?php } ?>
         </ul>
       </nav>
     </div>
@@ -141,7 +163,7 @@
     </section>
   </main>
 
-  <footer>
+  <footer style="background-color: var(--primary-color); color: white; padding: 2cm; display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
     <ul style="list-style: none;">
         <p>Notre Equipe:</p><br>
         <li>@ 2025 ESMIA University</li>

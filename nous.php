@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+
+<?php
+include 'auth.php';
+session_start();
+?><!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -198,6 +202,14 @@ footer li {
   font-size: 0.95rem;
   margin-bottom: 5px;
 }
+ .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid white;
+}
 
   </style>
 </head>
@@ -215,7 +227,15 @@ footer li {
           <li><a href="profil.php">Profil</a></li>
           <li><a href="accueil.php">Clubs</a></li>
           <li><a href="apropos.html" >A propos</a></li>
-          <li><a href="login.php" class="btn">Connexion</a></li>
+           <li>
+            <?php if (isLoggedIn()){ ?>
+              <a href="profil.php">
+                <img src="<?= isset($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : 'user.png' ?>" class="avatar" alt="Profil">
+              </a>
+              <?php } else { ?>
+              <a href="login.php">
+            <a href="login.php" class="btn">Connexion</a></li>
+            <?php } ?>
         </ul>
       </nav>
     </div>
