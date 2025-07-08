@@ -1,58 +1,69 @@
 <?php
-// inscription.php
-
+// Initialisation de la session et des messages
 session_start();
-
 $error = "";
 $success = "";
 
+// Traitement du formulaire seulement si méthode POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Connexion à la base de données
-    try {
-        $pdo = new PDO("mysql:host=localhost;dbname=P_trans", "root", "Ryan");
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // 1. Récupération des données du formulaire
+    $nom = htmlspecialchars(trim($_POST['nom']));
+    $prenom = htmlspecialchars(trim($_POST['prenom']));
+    $email = htmlspecialchars(trim($_POST['email']));
+    $nie = htmlspecialchars(trim($_POST['nie']));
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+    $filiere = htmlspecialchars(trim($_POST['filiere']));
+    $niveau = htmlspecialchars(trim($_POST['niveau']));
+    $classe = htmlspecialchars(trim($_POST['classe']));
 
-        // Récupération et sécurisation des données du formulaire
-        $nom = htmlspecialchars(trim($_POST['nom']));
-        $prenom = htmlspecialchars(trim($_POST['prenom']));
-        $email = htmlspecialchars(trim($_POST['email']));
-        $nie = htmlspecialchars(trim($_POST['nie']));
-        $password = $_POST['password'];
-        $confirm_password = $_POST['confirm_password'];
-        $filiere = htmlspecialchars(trim($_POST['filiere']));
-        $niveau = htmlspecialchars(trim($_POST['niveau']));
-        $classe = htmlspecialchars(trim($_POST['classe']));
+    // 2. Validation des données
+    if (empty($nom) || empty($prenom) || empty($email) || empty($nie) || empty($password)) {
+        $error = "Tous les champs obligatoires doivent être remplis";
+    } elseif ($password !== $confirm_password) {
+        $error = "Les mots de passe ne correspondent pas";
+    } else {
+        try {
+            // 3. Connexion à la base de données
+            $pdo = new PDO("mysql:host=localhost;dbname=P_trans", "root", "Ryan");
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // Vérification des mots de passe
-        if ($password !== $confirm_password) {
-            $error = "❌ Les mots de passe ne correspondent pas.";
-        } else {
-            // Vérifie si le NIE existe déjà
-            $stmt = $pdo->prepare("SELECT COUNT(*) FROM ETUDIANT WHERE nie_etudiant = ?");
+            // 4. Vérification si le NIE existe déjà
+            $check_query = "SELECT nie_etudiant FROM ETUDIANT WHERE nie_etudiant = ?";
+            $stmt = $pdo->prepare($check_query);
             $stmt->execute([$nie]);
-
-            if ($stmt->fetchColumn() > 0) {
-                $error = "⚠️ Ce NIE est déjà utilisé.";
+            
+            if ($stmt->fetch()) {
+                $error = "Ce NIE est déjà utilisé";
             } else {
-                // Hash du mot de passe
+                // 5. Hashage du mot de passe
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-                // Insertion dans la base
-                $sql = "INSERT INTO ETUDIANT (nom_etudiant, prenom_etudiant, email, nie_etudiant, password, filiere, niveau, classe)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute([$nom, $prenom, $email, $nie, $hashed_password, $filiere, $niveau, $classe]);
-
-                $success = "✅ Inscription réussie ! Vous pouvez maintenant vous connecter.";
+                // 6. Insertion dans la base de données
+                $insert_query = "INSERT INTO ETUDIANT (
+                    nom_etudiant, prenom_etudiant, nie_etudiant,
+                    email_etudiant, filiere_etudiant, niveau_etudiant,
+                    classe_etudiant, password
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                
+                $stmt = $pdo->prepare($insert_query);
+                $stmt->execute([
+                    $nom, $prenom, $nie, $email,
+                    $filiere, $niveau, $classe, $hashed_password
+                ]);
+                
+                $success = "Inscription réussie !";
             }
+        } catch (PDOException $e) {
+            $error = "Erreur lors de l'inscription : " . $e->getMessage();
         }
-    } catch (PDOException $e) {
-        $error = "Erreur base de données : " . $e->getMessage();
     }
 }
-
 ?>
+
+<?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
+<?php if (!empty($success)) echo "<p style='color:green;'>$success</p>"; ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
