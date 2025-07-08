@@ -1,28 +1,37 @@
 
 <?php
-
 session_start();
-
 
 $error = '';
 
 try {
-    $base = new PDO('mysql:host=localhost;dbname=p_transversal', 'root', '');
-    $base->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = new PDO('mysql:host=localhost;dbname=P_trans', 'root', 'Ryan');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!empty($_POST["nie"]) && !empty($_POST["password"])) {
             $nie = htmlspecialchars(trim($_POST["nie"]));
             $password = trim($_POST["password"]);
 
-            $query = $base->prepare("SELECT * FROM ETUDIANT WHERE nie_etudiant = ?");
+            $query = $pdo->prepare("SELECT * FROM ETUDIANT WHERE nie_etudiant = ?");
             $query->execute([$nie]);
             $user = $query->fetch(PDO::FETCH_ASSOC);
 
             if ($user && password_verify($password, $user['password'])) {
                 $_SESSION['id_etudiant'] = $user['id_etudiant'];
                 $_SESSION['nom_etudiant'] = $user['nom_etudiant'];
-                header("Location: profil.php");
+                $_SESSION['nie_etudiant'] = $nie;
+
+                // Vérifie si c'est un admin
+                $adminCheck = $pdo->prepare("SELECT * FROM ADMIN_CLUB WHERE nie_etudiant = ?");
+                $adminCheck->execute([$nie]);
+                $isAdmin = $adminCheck->fetch();
+
+                if ($isAdmin) {
+                    header("Location: tableau_admin.php");
+                } else {
+                    header("Location: profil.php");
+                }
                 exit();
             } else {
                 $error = "❌ Identifiant ou mot de passe incorrect.";
@@ -35,6 +44,7 @@ try {
     $error = "Erreur de connexion à la base de données : " . htmlspecialchars($e->getMessage());
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -1,3 +1,58 @@
+<?php
+// inscription.php
+
+session_start();
+
+$error = "";
+$success = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Connexion à la base de données
+    try {
+        $pdo = new PDO("mysql:host=localhost;dbname=P_trans", "root", "Ryan");
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Récupération et sécurisation des données du formulaire
+        $nom = htmlspecialchars(trim($_POST['nom']));
+        $prenom = htmlspecialchars(trim($_POST['prenom']));
+        $email = htmlspecialchars(trim($_POST['email']));
+        $nie = htmlspecialchars(trim($_POST['nie']));
+        $password = $_POST['password'];
+        $confirm_password = $_POST['confirm_password'];
+        $filiere = htmlspecialchars(trim($_POST['filiere']));
+        $niveau = htmlspecialchars(trim($_POST['niveau']));
+        $classe = htmlspecialchars(trim($_POST['classe']));
+
+        // Vérification des mots de passe
+        if ($password !== $confirm_password) {
+            $error = "❌ Les mots de passe ne correspondent pas.";
+        } else {
+            // Vérifie si le NIE existe déjà
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM ETUDIANT WHERE nie_etudiant = ?");
+            $stmt->execute([$nie]);
+
+            if ($stmt->fetchColumn() > 0) {
+                $error = "⚠️ Ce NIE est déjà utilisé.";
+            } else {
+                // Hash du mot de passe
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+                // Insertion dans la base
+                $sql = "INSERT INTO ETUDIANT (nom_etudiant, prenom_etudiant, email, nie_etudiant, password, filiere, niveau, classe)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$nom, $prenom, $email, $nie, $hashed_password, $filiere, $niveau, $classe]);
+
+                $success = "✅ Inscription réussie ! Vous pouvez maintenant vous connecter.";
+            }
+        }
+    } catch (PDOException $e) {
+        $error = "Erreur base de données : " . $e->getMessage();
+    }
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
