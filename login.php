@@ -1,13 +1,9 @@
-
 <?php
-
 session_start();
-
-
 $error = '';
 
 try {
-    $base = new PDO('mysql:host=localhost;dbname=p_transversal', 'root', '');
+    $base = new PDO('mysql:host=localhost;dbname=p_transversal', 'root', 'Doja1390');
     $base->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -22,7 +18,18 @@ try {
             if ($user && password_verify($password, $user['password'])) {
                 $_SESSION['id_etudiant'] = $user['id_etudiant'];
                 $_SESSION['nom_etudiant'] = $user['nom_etudiant'];
-                header("Location: profil.php");
+                $_SESSION['user'] = $user;
+
+                // Vérifie si l'utilisateur est admin
+                $checkAdmin = $base->prepare("SELECT COUNT(*) FROM Admin_Club WHERE id_etudiant = ?");
+                $checkAdmin->execute([$user['id_etudiant']]);
+                $isAdmin = $checkAdmin->fetchColumn() > 0;
+
+                // Enregistre le rôle dans la session
+                $_SESSION['role'] = $isAdmin ? 'admin' : 'etudiant';
+
+                // Redirection selon le rôle
+                header("Location: " . ($isAdmin ? "admin.php" : "profil.php"));
                 exit();
             } else {
                 $error = "❌ Identifiant ou mot de passe incorrect.";

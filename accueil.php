@@ -316,18 +316,17 @@ include 'auth.php';
         <ul>
           <li><a href="accueil.php">Accueil</a></li>
           <li><a href="#clubs">Clubs</a></li>
+          <li><a href="evenement.php">evenements</a></li>
           <li><a href="nous.html">Qui sommes nous?</a></li>
           <li><a href="evenement.php">Événements</a></li>
           <li><a href="apropos.html">À propos</a></li>
           <li>
-            <?php if (isLoggedIn()){ ?>
               <a href="profil.php">
-                <img src="<?= isset($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : 'user.png' ?>" class="avatar" alt="Profil">
+                <img src="<?= isset($_SESSION['user']['avatar']) ? htmlspecialchars($_SESSION['user']['avatar']) : 'user.png' ?>" class="avatar" alt="Profil">
               </a>
-              <?php } else { ?>
-              <a href="login.php">
-            <a href="login.php" class="btn">Connexion</a></li>
-            <?php } ?>
+              <a href="login.php" class="btn">Connexion</a>
+            
+          </li>
         </ul>
       </nav>
     </div>
@@ -438,7 +437,7 @@ include 'auth.php';
 
       prevBtn.addEventListener('click', function() {
         carousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-        setTimeout(updateNav, 100);
+        setTimeout(updateNav,100);
       });
       nextBtn.addEventListener('click', function() {
         carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });

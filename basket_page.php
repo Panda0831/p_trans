@@ -1,8 +1,5 @@
 <?php
-session_start();
-include_once 'auth.php'; // Inclut les fonctions d'authentification
-requireLogin(); // Vérifie que l'utilisateur est connecté, redirige vers la page de connexion
-$error_message = "";
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
   $nie = trim(htmlspecialchars($_POST["nie"]));
@@ -135,6 +132,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
       transition: color 0.3s ease;
       cursor: pointer;
     }
+Notre Équipe :
+
+@ 2025 ESMIA University
+Nexus Tech
+GROUPE 3 L1sio1
+Coordonnées :
+
+Facebook
+Instagram
+GitHub
+Esmia University
+Les Responsables :
+
+Président : Fanamby
+Secrétaire : Willia Tang
+Trésorier : Ryan
+Conseiller : Joyce
 
     nav ul li a:hover {
       color: var(--hover-color);
