@@ -1,4 +1,0 @@
--Je viens de finir une nouvelle base de données parce que j' ai pas compris ce que Joyce a fait 
-- Je viens de commencer à coder l' espace admin notament le config.php et auth.php pour l' authentification 
-- Prochaine Etape c' est de lier ce que j' ai fait avec ce Fananmby a déjà fait .
-- Je vais dire à Joyce de commencer les fonctionnalités de l' utilisateurs
