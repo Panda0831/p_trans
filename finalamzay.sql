@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : ven. 27 juin 2025 à 05:31
+-- Généré le : mer. 09 juil. 2025 à 16:28
 -- Version du serveur : 8.0.42-0ubuntu0.24.04.1
 -- Version de PHP : 8.3.6
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `p_transversal`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Admin_Club`
+--
+
+CREATE TABLE `Admin_Club` (
+  `id_etudiant` varchar(10) NOT NULL,
+  `id_club` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `Admin_Club`
+--
+
+INSERT INTO `Admin_Club` (`id_etudiant`, `id_club`) VALUES
+('ETU001', 2),
+('ETU001', 3);
 
 -- --------------------------------------------------------
 
@@ -42,7 +61,8 @@ CREATE TABLE `CLUB` (
 
 INSERT INTO `CLUB` (`id_club`, `nom_club`, `description_club`, `domaine_club`, `date_reunion_hebdo_club`, `etudiant_id_etudiant`) VALUES
 (1, 'cub_foot', 'club_foot', 'sport', NULL, NULL),
-(2, 'club_danse', 'danse', 'danse', NULL, NULL);
+(2, 'club_danse', 'danse', 'danse', NULL, NULL),
+(3, 'club_basket', 'basketclub', 'sport', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -60,11 +80,14 @@ CREATE TABLE `CLUB_ETUDIANT` (
 --
 
 INSERT INTO `CLUB_ETUDIANT` (`id_club`, `id_etudiant`) VALUES
+(3, 'ETU001'),
 (2, 'ETU002'),
 (2, 'ETU003'),
 (2, 'ETU004'),
 (2, 'ETU005'),
-(2, 'ETU006');
+(2, 'ETU006'),
+(2, 'ETU007'),
+(3, 'ETU008');
 
 -- --------------------------------------------------------
 
@@ -120,7 +143,9 @@ INSERT INTO `ETUDIANT` (`id_etudiant`, `nom_etudiant`, `nie_etudiant`, `prenom_e
 ('ETU003', 'wiwi', 'SE2024201', 'aimelie', 'SIO', 'L1', 'L1SIO1', NULL, '$2y$10$jAPM8aBUTKB4nNDb754NR.YNqyCLliesDUAW0AlvrUuqF0B9IxJmO', 'williatang7@gmail.com'),
 ('ETU004', 'ratsimba', 'SE20242017', 'andy', 'SIO', 'L1', 'L1SIO1', NULL, '$2y$10$eNYcacUxmwcIG7l2Lgcf9Ol3qH8VvhObnwZlKM.Ah3ikhPXUXdW8m', 'ratsimba74@gmail.com'),
 ('ETU005', 'Rafanomezantsoa', 'SE20242000', 'aimelie', 'SIO', 'L1', 'L1SIO1', NULL, '$2y$10$Fz1Sm441GqoGmiYc7Ipire2XUOgzFGA0.9aK3rIfWrD6n9fTjFA1u', 'willia@gmail.com'),
-('ETU006', 'RAKOTOVAO', 'SE20240148', 'Joyce', 'SIO', 'L1', 'L1SIO1', NULL, '$2y$10$iJBY/nTuzzzW.qbPccww4OQQViCg33VeltRFZWZSVln98M59iTqla', 'joyceritchy3@gmail.com');
+('ETU006', 'RAKOTOVAO', 'SE20240148', 'Joyce', 'SIO', 'L1', 'L1SIO1', NULL, '$2y$10$iJBY/nTuzzzW.qbPccww4OQQViCg33VeltRFZWZSVln98M59iTqla', 'joyceritchy3@gmail.com'),
+('ETU007', 'Ryan', 'SE20240134', 'AVOTRA', 'SIO', 'L1', 'L1SIO1', NULL, '$2y$10$apLsRU73gNwYka.Jfby/MuV0nvORcwyhQdFX4mIA.JCopejV9B7G2', 'fanambymanjaka9@gmail.com'),
+('ETU008', 'rabe', 'se20240133', 'haja', 'SIO', 'L1', 'L1SIO1', NULL, '$2y$10$imZSlOI5w42vTIpHI8dnAu3IPmuiW9Z7SJ.jO.dcoxbisGeMzlW2e', 'rabe@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -136,8 +161,22 @@ CREATE TABLE `EVENEMENT` (
   `lieu_evenement` varchar(100) DEFAULT NULL,
   `date_fin_inscription` date DEFAULT NULL,
   `id_club` int DEFAULT NULL,
-  `date_lancement_evenement` date DEFAULT NULL
+  `date_lancement_evenement` date DEFAULT NULL,
+  `description_evenement` text,
+  `image_evenement` varchar(255) DEFAULT NULL,
+  `date_lancement` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `EVENEMENT`
+--
+
+INSERT INTO `EVENEMENT` (`id_evenement`, `nom_evenement`, `date_evenement`, `heure_evenement`, `lieu_evenement`, `date_fin_inscription`, `id_club`, `date_lancement_evenement`, `description_evenement`, `image_evenement`, `date_lancement`) VALUES
+(6, 'antay', '2020-12-12', '12:12:00', 'dhBFN', '0001-01-01', 3, '2020-01-01', NULL, NULL, NULL),
+(8, 'antay', '2020-12-12', '12:12:00', 'dhBFN', '2020-01-01', 3, '2020-01-02', NULL, NULL, NULL),
+(9, 'OUII', '2022-02-12', '12:12:00', 'mahamasina', '2025-03-12', 2, NULL, NULL, NULL, NULL),
+(10, 'OUII', '2022-02-12', '12:12:00', 'mahamasina', '2025-03-12', 2, NULL, NULL, NULL, NULL),
+(11, 'OUII', '2022-02-12', '12:12:00', 'mahamasina', '2025-03-12', 2, NULL, NULL, 'https://cdn.pixabay.com/photo/2020/05/08/16/19/event-5142104_960_720.jpg', NULL);
 
 -- --------------------------------------------------------
 
@@ -148,7 +187,22 @@ CREATE TABLE `EVENEMENT` (
 CREATE TABLE `MESSAGE` (
   `id_message` int NOT NULL,
   `contenu_message` text,
-  `objet_message` varchar(100) DEFAULT NULL
+  `objet_message` varchar(100) DEFAULT NULL,
+  `vu` tinyint(1) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `NOTIFICATION_EVENEMENT`
+--
+
+CREATE TABLE `NOTIFICATION_EVENEMENT` (
+  `id_notification` int NOT NULL,
+  `id_etudiant` int DEFAULT NULL,
+  `id_evenement` int DEFAULT NULL,
+  `lu` tinyint(1) DEFAULT '0',
+  `date_notif` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -210,11 +264,21 @@ INSERT INTO `S_inscrire` (`id_club`, `id_etudiant`, `date_inscription_etudiant`)
 (2, 'ETU003', '2025-06-27'),
 (2, 'ETU004', '2025-06-25'),
 (2, 'ETU005', '2025-06-25'),
-(2, 'ETU006', '2025-06-27');
+(2, 'ETU006', '2025-06-27'),
+(2, 'ETU007', '2025-06-27'),
+(3, 'ETU001', '2025-06-29'),
+(3, 'ETU008', '2025-06-30');
 
 --
 -- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `Admin_Club`
+--
+ALTER TABLE `Admin_Club`
+  ADD PRIMARY KEY (`id_etudiant`,`id_club`),
+  ADD KEY `id_club` (`id_club`);
 
 --
 -- Index pour la table `CLUB`
@@ -266,6 +330,12 @@ ALTER TABLE `MESSAGE`
   ADD PRIMARY KEY (`id_message`);
 
 --
+-- Index pour la table `NOTIFICATION_EVENEMENT`
+--
+ALTER TABLE `NOTIFICATION_EVENEMENT`
+  ADD PRIMARY KEY (`id_notification`);
+
+--
 -- Index pour la table `Participer`
 --
 ALTER TABLE `Participer`
@@ -313,7 +383,7 @@ ALTER TABLE `COMMENTAIRE`
 -- AUTO_INCREMENT pour la table `EVENEMENT`
 --
 ALTER TABLE `EVENEMENT`
-  MODIFY `id_evenement` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_evenement` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT pour la table `MESSAGE`
@@ -322,8 +392,21 @@ ALTER TABLE `MESSAGE`
   MODIFY `id_message` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `NOTIFICATION_EVENEMENT`
+--
+ALTER TABLE `NOTIFICATION_EVENEMENT`
+  MODIFY `id_notification` int NOT NULL AUTO_INCREMENT;
+
+--
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `Admin_Club`
+--
+ALTER TABLE `Admin_Club`
+  ADD CONSTRAINT `Admin_Club_ibfk_1` FOREIGN KEY (`id_etudiant`) REFERENCES `ETUDIANT` (`id_etudiant`) ON DELETE CASCADE,
+  ADD CONSTRAINT `Admin_Club_ibfk_2` FOREIGN KEY (`id_club`) REFERENCES `CLUB` (`id_club`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `CLUB_ETUDIANT`
