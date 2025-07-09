@@ -18,9 +18,9 @@ try {
             $user = $query->fetch(PDO::FETCH_ASSOC);
 
             if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['id_etudiant'] = $user['id_etudiant'];
+                $_SESSION['nie_etudiant'] = $user['nie_etudiant'];
                 $_SESSION['nom_etudiant'] = $user['nom_etudiant'];
-                $_SESSION['nie_etudiant'] = $nie;
+                $_SESSION['prenom_etudiant'] = $user['prenom_etudiant'];
 
                 // Vérifie si c'est un admin
                 $adminCheck = $pdo->prepare("SELECT * FROM ADMIN_CLUB WHERE nie_etudiant = ?");

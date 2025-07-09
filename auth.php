@@ -2,7 +2,7 @@
 
 function isLoggedIn() {
     // regarde si l'user est connecte
-    return isset($_SESSION['id_etudiant']) && !empty($_SESSION['id_etudiant']);
+    return isset($_SESSION['nie_etudiant']) && !empty($_SESSION['nie_etudiant']);
 }
 
 function requireLogin() {
