@@ -20,7 +20,7 @@ try {
         exit();
     }
 
-    // Récupérer les clubs administrés
+    // Récupérer les clubs administrés par l'utilisateur
     $stmt = $pdo->prepare("
         SELECT CLUB.id_club, CLUB.nom_club
         FROM CLUB
@@ -32,38 +32,40 @@ try {
 
     $message = "";
 
-    // Traitement de l'envoi du message
+    // Traitement de l'envoi de message broadcast
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer_broadcast'])) {
         $idClub = $_POST['club_message'];
         $objet = htmlspecialchars(trim($_POST['objet_message']));
         $contenu = htmlspecialchars(trim($_POST['contenu_message']));
 
-        // Vérification que l'admin administre ce club
+        // Vérifie si l'admin a bien le droit d'administrer ce club
         $verifClub = $pdo->prepare("SELECT COUNT(*) FROM Admin_Club WHERE id_club = ? AND id_etudiant = ?");
         $verifClub->execute([$idClub, $id]);
 
         if ($verifClub->fetchColumn() == 0) {
             $message = "<p style='color:red;'>Ce club ne vous appartient pas.</p>";
         } else {
-            // Récupérer tous les étudiants du club
+            // Récupère tous les étudiants inscrits dans ce club
             $etudiants = $pdo->prepare("SELECT id_etudiant FROM S_inscrire WHERE id_club = ?");
             $etudiants->execute([$idClub]);
             $recepteurs = $etudiants->fetchAll(PDO::FETCH_COLUMN);
 
-            // Envoi du message à tous
-            $stmt = $pdo->prepare("INSERT INTO MESSAGE (id_etudiant, contenu_message, objet_message) VALUES (?, ?, ?)");
+            // Préparer une seule fois la requête
+            $stmt = $pdo->prepare("INSERT INTO MESSAGE (id_etudiant, contenu_message, objet_message, vu) VALUES (?, ?, ?, 0)");
+
             foreach ($recepteurs as $id_etudiant) {
                 $stmt->execute([$id_etudiant, $contenu, $objet]);
             }
 
-            $message = "<p style='color:green;'>📨 Message envoyé à <strong>" . count($recepteurs) . "</strong> étudiant(s).</p>";
+            $message = "<p style='color:green;'>Message envoyé à <strong>" . count($recepteurs) . "</strong> étudiant(s).</p>";
         }
     }
 
 } catch (PDOException $e) {
-    $message = "<p style='color:red;'>Erreur : " . htmlspecialchars($e->getMessage()) . "</p>";
+    $message = "<p style='color:red;'>Erreur de base de données : " . htmlspecialchars($e->getMessage()) . "</p>";
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

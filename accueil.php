@@ -316,12 +316,15 @@ include 'auth.php';
         <ul>
           <li><a href="accueil.php">Accueil</a></li>
           <li><a href="#clubs">Clubs</a></li>
-          <li><a href="evenement.php">evenements</a></li>
-          <li><a href="nous.html">Qui sommes nous?</a></li>
-          <li><a href="evenement.php">Événements</a></li>
-          <li><a href="apropos.html">À propos</a></li>
+          <li><a href="pages/evenement.php">Événements</a></li>
+          <li><a href="HTML/nous.html">Qui sommes nous?</a></li>
+          <li><a href="HTML/apropos.html">À propos</a></li>
           <li>
-           
+            <?php if (isset($_SESSION['user'])): ?>
+              <a href="pages/profil.php" class="btn">Profil</a>
+            <?php else: ?>
+              <a href="pages/login.php" class="btn">Connexion</a>
+            <?php endif; ?>
           </li>
           <li>
             <?php if (isset($_SESSION['user'])): ?>

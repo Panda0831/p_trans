@@ -130,7 +130,7 @@ try {
   src="img/message.png" 
   alt="Messages" 
   id="notif-message" 
-  onclick="window.location.href='message.php';"
+  onclick="window.location.href='messageAdmin.php';"
 >          </li>
         </ul>
       </nav>

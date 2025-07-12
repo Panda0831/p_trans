@@ -1,5 +1,10 @@
 <?php
 session_start();
+// Récupère le nombre de messages non lus pour cet étudiant
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM MESSAGE WHERE id_etudiant = ? AND vu = 0");
+$stmt->execute([$_SESSION['id_etudiant']]);
+$nb_non_lus = $stmt->fetchColumn();
+
 
 if (!isset($_SESSION['id_etudiant'])) {
     header("Location: login.php");
@@ -73,7 +78,7 @@ try {
           <li><a href="nous.php">Qui sommes nous?</a></li>
           <li><a href="apropos.html">À propos</a></li>
           <li><a href="profil.php">
-          <a href="messages.php">
+          <a href="pages/messageSimple.php">
     <img src="img/message.png" class="logo-image2"  />
 </a>
 <a href="evenements.php">
@@ -85,6 +90,15 @@ try {
           <li>
             <img class="logo-image2" src="bell.webp" alt="" id="notif-bell" style="height:22px; width:22px; object-fit:contain; vertical-align:middle;">
           </li>
+          <a href="messages.php">
+    🔔 Messages 
+    <?php if ($nb_non_lus > 0): ?>
+        <span style="color: red; font-weight: bold;">
+            (<?= $nb_non_lus ?>)
+        </span>
+    <?php endif; ?>
+</a>
+
         </ul>
       </nav>
     </div>
