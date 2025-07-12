@@ -1,9 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION['nie'])) {
-    header('Location: login.php');
-    exit();
-}
+
 
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=p_transversal', 'root', 'Doja1390');

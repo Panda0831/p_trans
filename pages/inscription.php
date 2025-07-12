@@ -1,72 +1,88 @@
-
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// Connexion à la base de données...
-
-
+// Connexion à la base de données
 $host = "localhost";
 $user = "root";
-$pass = "Doja1390"; //  mot de passe ny lisany
-$dbname = "p_transversal"; 
+$pass = "Doja1390";
+$dbname = "p_transversal";
 
-$conn = new mysqli($host, $user, $pass, $dbname);
-
-// Vérifie la connexion
-if ($conn->connect_error) {
-    die("Connexion échouée: " . $conn->connect_error);
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
 }
 
 // Si le formulaire est soumis
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Récupérer les données
-    $nom = $_POST["nom"];
-    $prenom = $_POST["prenom"];
-    $email = $_POST["email"];
-    $nie = $_POST["nie"];
-    $password = $_POST["password"];
-    $confirm_password = $_POST["confirm_password"];
-    $filiere = $_POST["filiere"];
-    $niveau = $_POST["niveau"];
-    $classe = $_POST["classe"];
-    $club_id = $_POST["club_id_club"];
+    // Récupérer et nettoyer les données
+    $nom      = htmlspecialchars(trim($_POST["nom"] ?? ""));
+    $prenom   = htmlspecialchars(trim($_POST["prenom"] ?? ""));
+    $email    = htmlspecialchars(trim($_POST["email"] ?? ""));
+    $nie      = htmlspecialchars(trim($_POST["nie"] ?? ""));
+    $password = $_POST["password"] ?? "";
+    $confirm  = $_POST["confirm_password"] ?? "";
+    $filiere  = htmlspecialchars(trim($_POST["filiere"] ?? ""));
+    $niveau   = htmlspecialchars(trim($_POST["niveau"] ?? ""));
+    $classe   = htmlspecialchars(trim($_POST["classe"] ?? ""));
 
-    // Vérifie que les mots de passe correspondent
-    if ($password !== $confirm_password) {
-        echo "Les mots de passe ne correspondent pas.";
-        exit;
+    // Vérifie que les champs obligatoires sont remplis
+    if (!$nom || !$prenom || !$email || !$nie || !$password || !$confirm || !$filiere || !$niveau || !$classe) {
+        die("Tous les champs sont requis.");
     }
 
-    // Génère un id aléatoire simple (à améliorer si besoin)
-    $id_etudiant = uniqid("ETU");
+    // Vérifie que les mots de passe correspondent
+    if ($password !== $confirm) {
+        die(" Les mots de passe ne correspondent pas.");
+    }
 
-    // Requête SQL
-    $sql = "INSERT INTO ETUDIANT (
-                id_etudiant, nom_etudiant, prenom_etudiant, email_etudiant, nie_etudiant,
-                filiere_etudiant, niveau_etudiant, classe_etudiant, club_id_club
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    // Génère un ID unique pour l'étudiant
+$id_etudiant = "ETU" . substr(uniqid(), -7);
+    
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssssi", 
-        $id_etudiant, $nom, $prenom, $email, $nie,
-        $filiere, $niveau, $classe, $club_id
-    );
 
-    if ($stmt->execute()) {
-      // Rediriger vers liste.php après inscription
-      header("Location: liste.php");
-      exit;
-  } else {
-      echo "Erreur : " . $stmt->error;
-  }
-  
+    // Hasher le mot de passe
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt->close();
+    // Requête d'insertion
+    try {
+        $sql = "INSERT INTO ETUDIANT (
+                    id_etudiant, nom_etudiant, prenom_etudiant, email_etudiant, nie_etudiant,
+                    filiere_etudiant, niveau_etudiant, classe_etudiant, password
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $stmt = $conn->prepare($sql);
+        $ok = $stmt->execute([
+            $id_etudiant,
+            $nom,
+            $prenom,
+            $email,
+            $nie,
+            $filiere,
+            $niveau,
+            $classe,
+            $hashed_password
+        ]);
+
+        if ($ok) {
+            // Redirection vers une page de confirmation
+            header("Location: /pages/accueil.php");
+            exit();
+        } else {
+            echo " Erreur lors de l'inscription.";
+        }
+
+    } catch (PDOException $e) {
+        echo " Erreur SQL : " . $e->getMessage();
+    }
 }
 
-$conn->close();
+// Fermeture de la connexion
+$conn = null;
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

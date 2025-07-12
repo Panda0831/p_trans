@@ -29,7 +29,7 @@ try {
                 $_SESSION['role'] = $isAdmin ? 'admin' : 'etudiant';
 
                 // Redirection selon le rôle
-                header("Location: " . ($isAdmin ? "admin.php" : "profil.php"));
+                header("Location: " . ($isAdmin ? "/admin/admin.php" : "/pages/profil.php"));
                 exit();
             } else {
                 $error = "❌ Identifiant ou mot de passe incorrect.";

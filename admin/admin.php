@@ -116,11 +116,11 @@ try {
       </div>
       <nav>
         <ul>
-          <li><a href="accueil.php">Accueil</a></li>
-          <li><a href="accueil.php#clubs">Clubs</a></li>
-          <li><a href="nous.php">Qui sommes nous?</a></li>
-          <li><a href="apropos.html">À propos</a></li>
-          <li><a href="profil.php">
+          <li><a href="/pages/accueil.php">Accueil</a></li>
+          <li><a href="/pages/accueil.php#clubs">Clubs</a></li>
+          <li><a href="/tsy important/nous.php">Qui sommes nous?</a></li>
+          <li><a href="/tsy important/apropos.html">À propos</a></li>
+          <li><a href="/pages/profil.php">
               <img src="<?= isset($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : 'user.png' ?>" class="avatar" alt="Profil">
           </a></li>
           <li>
