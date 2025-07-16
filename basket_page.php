@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
 <body>
   <div class="header">
     <div class="logo">
-      <div class="logo-image"><img src="/pages/img/globe.png" alt="ESMIA University logo" /></div>
+      <div class="logo-image"><img src="./img/globe.png" alt="ESMIA University logo" /></div>
       <div class="logo-text"><a href="/accueil.php">ESMIA UNIVERSITY</a></div>
 
     </div>

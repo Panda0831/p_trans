@@ -98,7 +98,7 @@ $conn = null;
   <header>
     <div class="header-container">
       <div class="logo">
-        <div class="logo-image"><img src="/pages/img/globe.webp" alt="ESMIA University"></div>
+        <div class="logo-image"><img src="./img/globe.webp" alt="ESMIA University"></div>
         <div class="logo-text">ESMIA UNIVERSITY</div>
       </div>
       <nav>
@@ -106,9 +106,9 @@ $conn = null;
           <li><a href="profil.php">Profil</a></li>
           <li><a href="accueil.php">Accueil</a></li>
           <li><a href="accueil.php#clubs">Clubs</a></li>
-          <li><a href="nous.html">Qui sommes nous?</a></li>
+          <li><a href="nous.php">Qui sommes nous?</a></li>
           <li><a href="evenement.php">Événements</a></li>
-          <li><a href="apropos.html">À propos</a></li>
+          <li><a href="apropos.php">À propos</a></li>
           <li><a href="login.php" class="btn">Connexion</a></li>
         </ul>
       </nav>

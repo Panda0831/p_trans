@@ -56,15 +56,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/view/css/danse.css">
     <title>Club de Danse - ESMIA</title>
-    <style>
-      
-    </style>
+
+    <link rel="stylesheet" href="danse.css">
 </head>
 <body>
     <header>
         <div class="header-container">
             <div class="logo">
-                <div class="logo-image"><img src="/pages/img/globe.webp" alt="ESMIA University"></div>
+                <div class="logo-image"><img src="./img/globe.webp" alt="ESMIA University"></div>
                 <div class="logo-text">ESMIA UNIVERSITY</div>
             </div>
             <nav>
@@ -72,10 +71,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
                     <li><a href="profil.php">Profil</a></li>
                     <li><a href="accueil.php">Accueil</a></li>
                     <li><a href="accueil.php#clubs">Clubs</a></li>
-                    <li><a href="nous.html">Qui sommes nous?</a></li>
+                    <li><a href="nous.php">Qui sommes nous?</a></li>
                     <li><a href="evenement.php">Événements</a></li>
-                    <li><a href="apropos.html">À propos</a></li>
-                    <li><a href="/pages/login.php" class="btn">Connexion</a></li>
+                    <li><a href="apropos.php">À propos</a></li>
+                    <li><a href="login.php" class="btn">Connexion</a></li>
                 </ul>
             </nav>
         </div>
@@ -105,15 +104,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
             <div class="right">
                 <div class="dance-card">
                     <p>Danse urbaine</p>
-                    <img src="./images.jpeg" alt="Danse urbaine">
+                    <img src="./img/danse.webp" alt="Danse urbaine">
                 </div>
                 <div class="dance-card">
                     <p>Zumba</p>
-                    <img src="zumba.png" alt="Zumba">
+                    <img src="./img/danse.webp" alt="Zumba">
                 </div>
                 <div class="dance-card">
                     <p>Classique</p>
-                    <img src="/pages/img/danse.webp" alt="Danse classique">
+                    <img src="./img/danse.webp" alt="Danse classique">
                 </div>
             </div>
         </div>

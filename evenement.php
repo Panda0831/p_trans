@@ -44,8 +44,8 @@ try {
         <ul>
           <li><a href="accueil.php">Accueil</a></li>
           <li><a href="#clubs">Clubs</a></li>
-          <li><a href="nous.html">Qui sommes nous?</a></li>
-          <li><a href="apropos.html">À propos</a></li>
+          <li><a href="nous.php">Qui sommes nous?</a></li>
+          <li style="color: white;"><a href="apropos.php">À propos</a></li>
           <li>
             <a href="profil.php">
               <img src="<?= isset($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : 'user.png' ?>" class="avatar" alt="Profil" />

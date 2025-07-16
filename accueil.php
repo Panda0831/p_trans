@@ -20,7 +20,7 @@
           <li><a href="#clubs">Clubs</a></li>
           <li><a href="evenement.php">Événements</a></li>
           <li><a href="nous.php">Qui sommes nous?</a></li>
-          <li><a href="apropos.php">À propos</a></li>
+          <li style="color: white;"><a href="apropos.php">À propos</a></li>
           <li>
             <?php if (isset($_SESSION['id_etudiant'])): ?>
                <a href="deconnexion.php" class="btn">Se deconnecter</a>

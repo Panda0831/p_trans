@@ -18,8 +18,8 @@
         <ul>
           <li><a href="accueil.php">Accueil</a></li>
           <li><a href="accueil.php">Clubs</a></li>
-          <li><a href="nous.html">Qui sommes nous?</a></li>
-          <li><a href="#"></a>À propos</li>
+          <li><a href="nous.php">Qui sommes nous?</a></li>
+          <li style="color: white;"><a href="#">À propos</a></li>
           <li><a href="login.php" class="btn">Connexion</a></li>
         </ul>
       </nav>

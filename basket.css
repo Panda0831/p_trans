@@ -6,7 +6,7 @@
   body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-image: url('/pages/img/kobe-terrain.jpg');
+    background-image: url('./img/kobe-terrain.jpg');
     background-size: cover;
     position: relative;
     color: white;
@@ -16,6 +16,26 @@
   .header {
     padding: 20px 40px;
   }
+  nav ul li a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+
+nav ul li a.btn {
+  background: var(--accent);
+  color: var(--white);
+  font-weight: bold;
+  box-shadow: 0 2px 8px #6c63ff44;
+}
+
+nav ul li a:hover, nav ul li a.btn:hover {
+  background: var(--accent-light);
+  color: var(--main-bg);
+}
 
   .logo-container {
     width: 100%;

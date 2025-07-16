@@ -89,10 +89,10 @@ try {
       <nav>
         <ul>
           <li><a href="accueil.php">Accueil</a></li>
-          <li><a href="accueil.php#clubs">Clubs</a></li>
+          <li><a href="accueil.php">Clubs</a></li>
           <li > <a href="evenement.php"></a></li>
           <li><a href="nous.php">Qui sommes nous?</a></li>
-          <li><a href="apropos.html">À propos</a></li>
+          <li><a href="apropos.php">À propos</a></li>
           <li><a href="profil.php">
           <a href="messageSimple.php">
     <img src="img/message.png" class="logo-image2"  />
