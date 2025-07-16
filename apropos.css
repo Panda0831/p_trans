@@ -1,0 +1,186 @@
+/* Fichier : apropos.css (nouveau fichier extrait du style inline HTML) */
+
+:root {
+  --primary-color: #6c63ff;
+  --secondary-color: #4b4fa3;
+  --text-color: #232946;
+  --light-bg: #f9f9f9;
+  --white: #fff;
+  --gray: #e5e7ef;
+  --main-bg: #181c2f;
+  --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  background-color: var(--light-bg);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+header {
+  background: rgba(24,28,47,0.95);
+  box-shadow: var(--shadow);
+  padding: 0.5rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-image img {
+  height: 48px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #0002;
+  background: var(--white);
+  padding: 4px;
+}
+
+.logo-text {
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  color: var(--primary-color);
+  text-shadow: 0 2px 8px #0002;
+}
+
+nav ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+
+nav ul li a.btn {
+  background: var(--primary-color);
+  color: var(--white);
+  font-weight: bold;
+  box-shadow: 0 2px 8px #6c63ff44;
+}
+
+nav ul li a:hover, nav ul li a.btn:hover {
+  background: var(--secondary-color);
+  color: var(--white);
+}
+
+.main-container {
+  background: linear-gradient(100deg, var(--primary-color) 60%, var(--main-bg) 100%);
+  color: var(--white);
+  padding: 4rem 2rem 3rem 2rem;
+  text-align: center;
+  border-radius: 0 0 2rem 2rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+
+.main-container h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px #0003;
+}
+
+main {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 2rem;
+  background-color: var(--white);
+  border-radius: 1.2rem;
+  box-shadow: 0 0 15px rgba(108, 92, 231, 0.2);
+}
+
+main h2 {
+  color: var(--primary-color);
+  margin-top: 2rem;
+  font-size: 1.5rem;
+}
+
+main p,
+main li {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+main a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+main a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  background: var(--main-bg);
+  color: var(--gray);
+  padding: 2.5rem 2rem 2rem 2rem;
+  margin-top: 3rem;
+  border-radius: 2rem 2rem 0 0;
+  box-shadow: 0 -2px 16px #0002;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  min-width: 180px;
+}
+
+footer p {
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+footer li,
+footer a {
+  color: var(--gray);
+  text-decoration: none;
+  margin-bottom: 0.3rem;
+  display: block;
+  opacity: 0.95;
+  transition: color 0.2s;
+}
+
+footer a:hover {
+  color: var(--accent-light);
+  text-decoration: underline;
+}

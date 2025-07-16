@@ -1,6 +1,12 @@
 <?php
+// 🔧 Correction des sessions si tu es en PHP serveur local (php -S ...)
+ini_set('session.save_path', '/tmp');
 session_start();
-// Connexion à la base de données
+
+// 🔍 Affichage des erreurs
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);// Connexion à la base de données
 $host = "localhost";
 $user = "root";
 $pass = "Doja1390";
@@ -45,6 +51,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Vos messages</title>
+<link rel="stylesheet" href="message.css">
     <style>
         body { font-family: Arial; margin: 20px; }
         .message { border: 1px solid #ccc; padding: 15px; margin-bottom: 10px; border-radius: 5px; }

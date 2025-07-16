@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/view/danse.css">
+    <link rel="stylesheet" href="/view/css/danse.css">
     <title>Club de Danse - ESMIA</title>
     <style>
       
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
     <header>
         <div class="header-container">
             <div class="logo">
-                <div class="logo-image"><img src="./img/globe.webp" alt="ESMIA University"></div>
+                <div class="logo-image"><img src="/pages/img/globe.webp" alt="ESMIA University"></div>
                 <div class="logo-text">ESMIA UNIVERSITY</div>
             </div>
             <nav>
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
                     <li><a href="nous.html">Qui sommes nous?</a></li>
                     <li><a href="evenement.php">Événements</a></li>
                     <li><a href="apropos.html">À propos</a></li>
-                    <li><a href="login.php" class="btn">Connexion</a></li>
+                    <li><a href="/pages/login.php" class="btn">Connexion</a></li>
                 </ul>
             </nav>
         </div>
@@ -113,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
                 </div>
                 <div class="dance-card">
                     <p>Classique</p>
-                    <img src="danse_classique.jpg" alt="Danse classique">
+                    <img src="/pages/img/danse.webp" alt="Danse classique">
                 </div>
             </div>
         </div>

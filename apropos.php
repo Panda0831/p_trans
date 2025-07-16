@@ -1,18 +1,11 @@
-<?php
-session_start();    
-include 'auth.php'; // Inclut les fonctions d'authentification
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="/view/acceuil.css/apropos.css">
   <title>Clubs ESMIA - Inscription</title>
-  <style>
 
-    
-  </style>
+  <link rel="stylesheet" href="apropos.css">
 </head>
 <body>
   <header>
@@ -26,13 +19,8 @@ include 'auth.php'; // Inclut les fonctions d'authentification
           <li><a href="accueil.php">Accueil</a></li>
           <li><a href="accueil.php">Clubs</a></li>
           <li><a href="nous.html">Qui sommes nous?</a></li>
-          <li><a href="#">À propos</a></li>
-           <li>
-              <a href="profil.php">
-                <img src="<?= isset($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : 'user.png' ?>" class="avatar" alt="Profil">
-              </a>
-              <a href="login.php">
-            <a href="login.php" class="btn">Connexion</a></li>
+          <li><a href="#"></a>À propos</li>
+          <li><a href="login.php" class="btn">Connexion</a></li>
         </ul>
       </nav>
     </div>

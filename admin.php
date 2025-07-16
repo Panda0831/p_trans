@@ -1,16 +1,17 @@
 <?php
+ini_set('session.save_path', '/tmp');
 session_start();
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 try {
     // Connexion à la base
-    $pdo = new PDO('mysql:host=localhost;dbname=p_transversal', 'root', 'Doja1390');
+    $pdo = new PDO('mysql:host=localhost;dbname=aaa', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Vérifie que l'utilisateur est connecté
-    if (!isset($_SESSION['id_etudiant'])) {
-        header('Location: login.php');
-        exit();
-    }
+    
 
     $id = $_SESSION['id_etudiant'];
 
@@ -69,7 +70,7 @@ try {
             $lieu, $finInscription, $lancement, $image, $description
         ]);
         if ($ok) {
-          // 🔔 Envoie les notifications aux membres du club
+          // Envoie les notifications aux membres du club
           $idEvenement = $pdo->lastInsertId();
           $etudiants = $pdo->prepare("SELECT id_etudiant FROM S_inscrire WHERE id_club = ?");
           $etudiants->execute([$idClub]);
@@ -86,8 +87,8 @@ try {
       
 
         $message = $ok 
-            ? "<p style='color:green;'>✅ Événement ajouté avec succès.</p>" 
-            : "<p style='color:red;'>❌ Erreur lors de l'ajout.</p>";
+            ? "<p style='color:green;'> Événement ajouté avec succès.</p>" 
+            : "<p style='color:red;'> Erreur lors de l'ajout.</p>";
     }
 
 } catch (PDOException $e) {
@@ -104,13 +105,13 @@ try {
 <head>
   <meta charset="UTF-8">
   <title>Espace Admin</title>
-  <link rel="stylesheet" href="/view/acceuil.css/admin.css">
+  <link rel="stylesheet" href="admin.css">
 </head>
 <body>
   <header>
     <div class="header-container">
       <div class="logo">
-        <div class="logo-image"><img src="./img/globe.webp" alt="ESMIA University"></div>
+        <div class="logo-image"><img src="/pages/img/globe.webp" alt="ESMIA University"></div>
 
         <div class="logo-text">ESMIA UNIVERSITY</div>
       </div>
@@ -121,13 +122,13 @@ try {
           <li><a href="/tsy important/nous.php">Qui sommes nous?</a></li>
           <li><a href="/tsy important/apropos.html">À propos</a></li>
           <li><a href="/pages/profil.php">
-              <img src="<?= isset($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : 'user.png' ?>" class="avatar" alt="Profil">
+              <img src="<?= isset($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : 'pages/img/user.png' ?>" class="avatar" alt="Profil">
           </a></li>
           <li>
-          <img class="icon-nav" src="bell.webp" alt="Notifications" id="notif-bell">
+          <img class="icon-nav" src="/pages/img/bell.webp" alt="Notifications" id="notif-bell">
           <img 
   class="icon-nav" 
-  src="img/message.png" 
+  src="pages/img/message.png" 
   alt="Messages" 
   id="notif-message" 
   onclick="window.location.href='messageAdmin.php';"

@@ -1,10 +1,26 @@
 <?php
-session_start();
-// Récupère le nombre de messages non lus pour cet étudiant
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM MESSAGE WHERE id_etudiant = ? AND vu = 0");
-$stmt->execute([$_SESSION['id_etudiant']]);
-$nb_non_lus = $stmt->fetchColumn();
 
+ini_set('session.save_path', '/tmp');
+session_start();
+
+// 🔍 Affichage des erreurs
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+try {
+    // Connexion à la base
+    $pdo = new PDO('mysql:host=localhost;dbname=p_transversal', 'root', 'Doja1390');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Récupère le nombre de messages non lus pour cet étudiant
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM MESSAGE WHERE id_etudiant = ? AND vu = 0");
+    $stmt->execute([$_SESSION['id_etudiant']]);
+    $nb_non_lus = $stmt->fetchColumn();
+
+} catch (PDOException $e) {
+    echo "<p style='color:red;'>Erreur de base de données : " . htmlspecialchars($e->getMessage()) . "</p>";
+    exit();
+}
 
 if (!isset($_SESSION['id_etudiant'])) {
     header("Location: login.php");
@@ -57,7 +73,7 @@ try {
   <meta charset="UTF-8">
   <title>Profil de <?= htmlspecialchars($etudiant['prenom_etudiant']) ?></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/view/profil.css">
+  <link rel="stylesheet" href="profil.css">
   <style>
   
   </style>
@@ -78,7 +94,7 @@ try {
           <li><a href="nous.php">Qui sommes nous?</a></li>
           <li><a href="apropos.html">À propos</a></li>
           <li><a href="profil.php">
-          <a href="pages/messageSimple.php">
+          <a href="messageSimple.php">
     <img src="img/message.png" class="logo-image2"  />
 </a>
 <a href="evenements.php">
@@ -90,7 +106,7 @@ try {
           <li>
             <img class="logo-image2" src="bell.webp" alt="" id="notif-bell" style="height:22px; width:22px; object-fit:contain; vertical-align:middle;">
           </li>
-          <a href="messages.php">
+          <a href="messageSimple.php">
     🔔 Messages 
     <?php if ($nb_non_lus > 0): ?>
         <span style="color: red; font-weight: bold;">

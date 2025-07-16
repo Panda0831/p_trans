@@ -1,8 +1,14 @@
 <?php
 
+ini_set('session.save_path', '/tmp');
+session_start();
 
+// 🔍 Affichage des erreurs
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 try {
-    $pdo = new PDO('mysql:host=localhost;dbname=p_transversal', 'root', 'Doja1390');
+    $pdo = new PDO('mysql:host=localhost;dbname=aaa', 'root', 'Ryan');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Récupération des événements
@@ -20,7 +26,7 @@ try {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="/view/acceuil.css/event.css">
+  <link rel="stylesheet" href="event.css">
   <title>Événements - Clubs ESMIA</title>
   <style>
   

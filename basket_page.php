@@ -53,16 +53,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
 <head>
   <meta charset="UTF-8">
   <title>AVE BASKET</title>
-  <style>
-   
-  </style>
+  <link rel="stylesheet" href="basket.css">
 </head>
 
 <body>
   <div class="header">
     <div class="logo">
-      <div class="logo-image"><img src="globe.png" alt="ESMIA University logo" /></div>
-      <div class="logo-text"><a href="accueil.php">ESMIA UNIVERSITY</a></div>
+      <div class="logo-image"><img src="/pages/img/globe.png" alt="ESMIA University logo" /></div>
+      <div class="logo-text"><a href="/accueil.php">ESMIA UNIVERSITY</a></div>
 
     </div>
     <div class="logo-line"></div>
@@ -76,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
       <li><a href="contact.php">Contact</a></li>
       <li><a href="apropos.html">A propos</a></li>
       <li>
-        <a href="profil.php">
+        <a href="/pages/profil.php">
           <img src="<?= isset($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : 'user.png' ?>" class="avatar" alt="Profil">
         </a>
   
@@ -92,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["nie"])) {
 
   </div>
   <div class="form-popup" id="myForm">
-    <form method="post" action="/basket_page.php" class="form-container">
+    <form method="post" action="profil.php" class="form-container">
       <h1>Inscription</h1>
 
       <label for="identifiant"><b>NIE</b></label>

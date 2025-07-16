@@ -1,6 +1,12 @@
 <?php
+// 🔧 Correction des sessions si tu es en PHP serveur local (php -S ...)
+ini_set('session.save_path', '/tmp');
 session_start();
 
+// 🔍 Affichage des erreurs
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=p_transversal', 'root', 'Doja1390');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -71,7 +77,7 @@ try {
 <head>
   <meta charset="UTF-8">
   <title>Broadcast - Admin</title>
-<link rel="stylesheet" href="/view/acceuil.css/message.css">  <style>
+<link rel="stylesheet" href="message.css">  <style>
   
   </style>
 </head>

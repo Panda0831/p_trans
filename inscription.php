@@ -68,7 +68,7 @@ $id_etudiant = "ETU" . substr(uniqid(), -7);
 
         if ($ok) {
             // Redirection vers une page de confirmation
-            header("Location: /pages/accueil.php");
+            header("Location: accueil.php");
             exit();
         } else {
             echo " Erreur lors de l'inscription.";
@@ -89,7 +89,7 @@ $conn = null;
   <meta charset="UTF-8">
   <title>Inscription - Clubs ESMIA</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/view/inscription.css">
+  <link rel="stylesheet" href="inscription.css">
   <style>
   
   </style>
@@ -98,7 +98,7 @@ $conn = null;
   <header>
     <div class="header-container">
       <div class="logo">
-        <div class="logo-image"><img src="./img/globe.webp" alt="ESMIA University"></div>
+        <div class="logo-image"><img src="/pages/img/globe.webp" alt="ESMIA University"></div>
         <div class="logo-text">ESMIA UNIVERSITY</div>
       </div>
       <nav>
